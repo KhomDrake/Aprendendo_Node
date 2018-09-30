@@ -1,0 +1,581 @@
+<div class="container">
+
+    <h1 class="title"> Projeto Twitter 2/2 </h1>
+
+    <h1 class="title2"> Preparando o ambiente</h1>
+
+    <p> 
+        Fizemos um projeto para Twittar atráves da linha de comando do Git Bash, Prompt e Visual Studio Code. Só que em uma aplicação real isso não seria o correto,
+        o correto seria através de um site e isso que iremos fazer, criaremos um servidor local usando Express que nos permite twittar. 
+    </p>
+
+    <p>
+        Criem uma nova pasta para o desenvolvimento desse projeto. Chamarei a minha de Express_Twitter.
+    </p>
+
+    <img src="/images/Twitter2/Pasta.png">
+
+    <p> Abra o Git Bash dentro dela, escreva e aperte Enter: </p>
+
+    <pre>
+        <code>
+npm install -g express
+        </code>
+    </pre>
+
+    <p>E depois escreva e aperte Enter:</p>
+
+    <pre>
+        <code>
+npm install -g nodemon
+        </code>
+    </pre>
+
+    <p> 
+        Primeiro é para instalar o modulo Express e o segundo para instalar o modulo nodemon, os dois globalmente no computador (instalo modulos globalmente colocando 
+        -g antes do nome do modulo). Em seguida, escreva e aperte Enter:
+    </p>
+
+    <pre>
+        <code>
+express --git --hbs
+        </code>
+    </pre>
+
+    <img src="/images/Twitter2/ExpressApp1.png">
+    <br>    <br>    <br> 
+    <img src="/images/Twitter2/ExpressApp2.png">
+
+    <p>
+        Esse comando cria um projeto modelo para criação de site usando express. Em seguida, escreva npm install para baixar todas as dependências. 
+        Depois de baixar todas as dependências, abra a pasta no visual studio code(de preferência ele, mas pode utilizar outro editor). 
+    </p>
+
+    <img src="/images/Twitter2/npmInstall.png">
+    <br>    <br>    <br> 
+    <img src="/images/Twitter2/Projeto1.png">
+
+    <p>
+        Acesse o arquivo app.js e antes de "module.exports = app;", escreva:
+    </p>
+
+    <pre>
+        <code>
+// isso configura em qual porta onde o servidor local vai ser hosteado.
+app.listen(8080);
+        </code>
+    </pre>
+
+    <img src="/images/Twitter2/App1.png">
+    <br>    <br>    <br> 
+    <img src="/images/Twitter2/App2.png">
+
+    <p>
+        No GitBash/VisualStudioCode/Prompt escreva nodemon app.js para executar o servidor local. Falei agora para usar o nodemon, porque ele é um modulo 
+        que toda vez que o seu código que está sendo executado é alterado e é salvado essa alteração, ele automaticamente executa novamente o código, ele é bastante útil.
+        Acesse localhost:8080 no seu navegador.
+    </p>
+
+    <img src="/images/Twitter2/Index1.png">
+
+    <p> Terei que explicar como um servidor funciona para podermos prosseguir no desenvolvimento do projeto.</p>
+
+    <h1 class="title"> Entendendo como funciona um servidor. </h1>
+
+    <p>
+        O servidor é um aplicativo que ouve por pedidos dos usuários e responde de acordo com o pedido. Uma ótima analogia para o funcionamento de um servidor 
+        é como funciona um restaurante. Em um restaurante, você faz o pedido, o garçom leva o pedido para 'processamento' na cozinha e quando é terminado o pedido, o garçom
+        trás para minha mesa a 'resposta' do meu pedido, que nesse caso é meu prato. Em um servidor na web, é essencialmente o mesmo processo. Quando acesso o link de um 
+        video no youtuber, eu estou fazendo um pedido para o servidor e ele está me mandando como resposta o vídeo.
+    </p>
+
+    <h1 class="title2"> O Famoso CRUD </h1>
+
+    <p> 
+        Existem quatros tipos de pedidos que posso fazer a um servidor e eles são: Get(pegar), Post(postar), Put(colocar) e Delete(deletar). 
+        Ou como também chamamos, Create(criar), Read(ler), Update(atualizar) e Delete(deletar), que é o famoso CRUD. Get é Read, Update é Put, Delete é Delete e Create é 
+        Post.
+    </p>
+
+    <img src="/images/Twitter2/CRUD.png">
+
+    <p> Get/Read: É a ação de ler dados do servidor, como acessar um artigo em um site ou assistir um vídeo no youtuber. </p>
+    <p> Post/Create: É a ação de inserir coisas novas no servidor, como criar uma conta no twitter ou enviar um vídeo no youtube. </p>
+    <p> Put/Update: É a ação de atualizar informações já existente no servidor, como muda o nome de usuário no Twitter ou alterar um comentário numa postagem do Face.  </p>
+    <p> Delete/Delete: É a ação de apagar informações do servidor, como excluir uma foto do Insta.</p>
+
+    <br>
+
+    <p> Nesse projeto iremos utilizar Express para aprender a gerenciar o que fazer em dois casos de pedido, GET e POST.</p>
+
+    <h1 class="title"> Começando a mexer no código mesmo </h1>
+
+    <p>Agora que já teve um básico sobre como funciona um servidor, quero que vá ate o arquivo app.js</p>
+
+    <pre>
+        <code>
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+
+var app = express();
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
+
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+ 
+app.listen(8080);
+
+module.exports = app;
+        </code>
+    </pre>
+
+    <p> Ele deve está dessa forma. </p>
+    <p> Irei explicar o máximo que puder sobre o que cada linha de código faz, focando mais nas coisas importantes.</p>
+
+    <pre>
+        <code>
+// como explicado anteriormente, o método require importará o arquivo mencionado, ele podendo ser um modulo baixado 
+// ou um arquivo que nós criamos e deixamos disponível para ser utilizado.
+
+// importa o modulo http-errors
+var createError = require('http-errors');
+// importa o modulo express
+var express = require('express');
+// importa o modulo path
+var path = require('path');
+// importa o modulo cookie-parser
+var cookieParser = require('cookie-parser');
+// importa o modulo morgan.
+var logger = require('morgan');
+
+// esses modulos veem como padrão na criação de um projeto padrão express.
+// então não se importa entende-los por enquanto.
+
+// importo os dois arquivos que estão na pasta routes.
+// que é onde fica os códigos que são basicamente controladores dos routes.
+// Router significado roteador, ou seja, estou puxando o controler de rosteamento das páginas do meu site.
+// que nesse caso são index e users
+var indexRouter = require('./routes/index');
+// A linha onde puxa os users é recomendada ser apagada, não utilizaremos ela.
+// var usersRouter = require('./routes/users');
+
+// crio uma instancia de uma aplicação express.
+// ou seja, nessa váriavel irei gerencia tudo sobre o meu servidor que é uma aplicação express.
+var app = express();
+
+
+// Coloquei para utilizar esse tipo de view engine ao criar o modelo padrão de uma aplicação express, que foi usando Handlebars ou hbs.
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
+// essas duas linhas mudam dependendo da view engine que eu utilizar no meu projeto.
+// Outras que normalmente é utilizadas é a Jade, Ejs e etc... 
+// Elas são basicamente paginas htmls que permitem eu utilizar váriaveis diretamento no html. Isso será mostrado mais a frente.
+
+// coias padrões, ignorem
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Estou configurando que quando acessarem localhost:8080/ o script que vai ser rodado sera indexRouter e como falei antes,
+// essa váriavel é um dos controladores de router e nesse caso, ela vai controlar o rosteamento de paginas no caminho localhost:8080.
+app.use('/', indexRouter);
+// essa linha de app.use('/users', usersRouter) pode ser apagada também.
+// app.use('/users', usersRouter);
+
+// ignorar ou apagar, tanto faz.
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
+
+// ignorar ou apagar, tanto faz.
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+ 
+// configurando para o servidor ser hosteado na porta 8080 do computador.
+app.listen(8080);
+
+// deixando disponível para outros códigos importarem a váriavel app caso usem o metodo require com um caminho que leve ate esse código.
+module.exports = app;
+        </code>
+    </pre>
+
+    <p>
+        Se quiser, pode apagar o arquivo error.hbs e users.js, um que está na pasta views e outro na pasta routers.
+        Antes de apagar o arquivo error.hbs, veja o que está escrito. É um exemplo de uso de váriaveis diretamente no html.
+    </p>
+
+    <img src="/images/Twitter2/error.png">
+
+    <p>
+        Acesse o arquivo index.js na pasta routers.
+    </p>
+
+    <pre>
+        <code>
+// onde está var pode deixar desse jeito se quiser, mas recomendo que mude para let.
+// importando o modulo express
+var express = require('express');
+// criando uma nova instancia router, será essa função que cuidará do rosteamento das paginas.
+// Lembrando que o código index.js será executado quando o usuário acessar localhost:8080/
+var router = express.Router();
+
+// Atráves do método get, informo que quando o usuário fizer um pedido do tipo Get no caminho '/', lembrando que estamos em localhost:8080/ e '/' é apenas localhost:8080/
+// Ou seja, quando o usuário acessar esse caminho, essa função anônima sera executada.
+router.get('/', function(req, res, next)
+{
+    // o servidor irá renderizar o arquivo index.hbs que está na pasta views e irá mandar um objeto com a informação title, permitindo que eu puxe esse objeto diretament 
+    // do arquivo do tipo hbs.
+    res.render('index', { title: 'Express' });
+});
+
+// deixando disponível a váriavel router para os outros arquivos poderem importa-lá.
+// Algo essencal, já que importamos ela no arquivo app.js e utilizamos as configurações de rosteamento escritas nesse código lá na váriavel app.
+module.exports = router;
+
+        </code>
+    </pre>
+
+    <p> Altere o valor da váriavel title do objeto que está sendo enviado na renderização da pagina index.hbs e veja como o texto inicio muda. </p>
+
+    <pre>
+        <code>
+res.render('index', { title: 'Mudou' });
+        </code>
+    </pre>
+
+    <img src="/images/Twitter2/Index2.png">
+
+    <p> Incrível não é ? Também acho. </p>
+    <p> 
+        Agora começaremos a preparar o ambiente usando html. Mas antes, vá no arquivo layout.hbs e lá você verá a configuração padrão de head e body que podemos criar e 
+        que se repetirá em todos os arquivos hbs que criarmos no projeto. No head do layout.hbs, coloque:
+    </p>
+
+    <pre>
+        <code>
+// Esse é o link direto para um arquivo da biblioteca bootstrap que já tem bastante coisa de configuração de site que podemos utilizar.
+&lt;link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+        </code>
+    </pre>
+
+    <img src="/images/Twitter2/layout1.png">
+    <br>    <br>    <br> 
+    <img src="/images/Twitter2/Bootstrap.png">
+
+    <p> Em seguida, escreva em index.hbs: </p>
+
+    <pre>
+        <code >
+&lt;form class="form" action="/Twit" method="POST">
+    &lt;div class="form-group">
+        &lt;label for="consumer_key"> Consumer Key &lt;/label>
+        &lt;input type="text" class="form-control" id="consumer_key" name="consumer_key" value="WZzaqwfcSxndtXlWfUWwqiSPD">
+    &lt;/div>
+    &lt;div class="form-group">
+        &lt;label for="consumer_secret"> Consumer secret &lt;/label>
+        &lt;input type="text" class="form-control" id="consumer_secret" name="consumer_secret" value="wTswKUzxh1ajb5gV4PlFTSzj3B9gJf7yJcUQMtO6hqnyEwRmrq">
+    &lt;/div>
+    &lt;div class="form-group">
+        &lt;label for="access_token"> Access Token &lt;/label>
+        &lt;input type="text" class="form-control" id="access_token" name="access_token" value="281088977-UQiLEMx4sRBQ05w3qjuLS3BKATgHPGnnlgdnJ0KW">
+    &lt;/div>
+    &lt;div class="form-group">
+        &lt;label for="access_token_secret"> Access Token Secret &lt;/label>
+        &lt;input type="text" class="form-control" id="access_token_secret" name="access_token_secret" value="fNOY3iyGudgp7tBlk1BMOAOqMv17C5dv5qjZzBg5Eq7oX">
+    &lt;/div>
+    &lt;button type="submit" class="btn btn-default btn-success">
+        Twittar
+    &lt;/button>
+&lt;/form>
+        </code>
+    </pre>
+
+    <img src="/images/Twitter2/indexHBS1.png">
+
+    <p>E em seguida crie um arquivo twitter.js na pasta routes e um arquivo twit.hbs na pasta views</p>
+    <p>Em twitter.js escreva: </p>
+
+    <pre>
+        <code>
+var express = require('express');
+var router = express.Router();
+
+router.post('/', function(req, res, next) {
+  console.log(req.body);
+  res.render('twit', req.body);
+});
+
+module.exports = router;
+        </code>
+    </pre>
+
+    <img src="/images/Twitter2/twitterJS1.png">
+
+    <p>Em twit.hbs escreva e tire os espaços de { {: </p>
+
+    <pre>
+        <code>
+&lt;h1>
+    { {consumer_key}}
+&lt;/h1>
+&lt;h1>
+    { {consumer_secret}}
+&lt;/h1>
+&lt;h1>
+    { {access_token}}
+&lt;/h1>
+&lt;h1>
+     { {access_token_secret}}
+&lt;/h1>
+        </code>
+    </pre>
+
+    <img src="/images/Twitter2/twitHBS1.png">
+
+    <p> Em app.js escreva: </p>
+
+    <pre>
+        <code>
+// coloque em seguida de onde está let indexRouter = require('./routes/index');
+let twitterRouter = require('./routes/twitter');
+// coloque em seguida de onde está app.use('/', indexRouter);
+app.use('/Twit', twitterRouter);
+        </code>
+    </pre>
+
+    <p> Salve as mudanças e acesse localhost:8080. Irá aparecer isso.</p>
+
+    <img src="/images/Twitter2/index3.png">
+
+    <p> Clique em Twittar e irá carregar localhost:8080/Twit </p>
+
+    <img src="/images/Twitter2/Twit1.png">
+
+    <p> O que exatamente eu fiz ? Irei explicar em detalhes </p>
+
+    <pre>
+        <code>
+
+// Em index.hbs criei um formulário com o metodo POST e uma ação(action) que chamará /Twit(ou localhost:8080/Twit)
+// As class que utilizo nesse html, são tudo de bootstrap.
+
+// crio quatro campos
+// E em cada um crio uma label e um input. O input receberá os campos necessários para twittar.
+// Para não precisar colocar os valores toda hora, coloquei eles como o valor padrão do input usando o atributo value.
+// Todos os inputs tem a tag name com o mesmo nome de seu id, caso não fizesse isso, quando o botão fosse apertado e a ação(action) fosse ativida,
+// As informações do input não iriam junto para localhost:8080/Twit.
+&lt;form class="form" action="/Twit" method="POST">
+    // O Primeiro
+    &lt;div class="form-group">
+        &lt;label for="consumer_key"> Consumer Key &lt;/label>
+        &lt;input type="text" class="form-control" id="consumer_key" name="consumer_key" value="WZzaqwfcSxndtXlWfUWwqiSPD">
+    &lt;/div>
+    // O Segundo
+    &lt;div class="form-group">
+        &lt;label for="consumer_secret"> Consumer secret &lt;/label>
+        &lt;input type="text" class="form-control" id="consumer_secret" name="consumer_secret" value="wTswKUzxh1ajb5gV4PlFTSzj3B9gJf7yJcUQMtO6hqnyEwRmrq">
+    &lt;/div>
+    // O Terceiro
+    &lt;div class="form-group">
+        &lt;label for="access_token"> Access Token &lt;/label>
+        &lt;input type="text" class="form-control" id="access_token" name="access_token" value="281088977-UQiLEMx4sRBQ05w3qjuLS3BKATgHPGnnlgdnJ0KW">
+    &lt;/div>
+    // O Quarto
+    &lt;div class="form-group">
+        &lt;label for="access_token_secret"> Access Token Secret &lt;/label>
+        &lt;input type="text" class="form-control" id="access_token_secret" name="access_token_secret" value="fNOY3iyGudgp7tBlk1BMOAOqMv17C5dv5qjZzBg5Eq7oX">
+    &lt;/div>
+    // botão para fazer o envio do formulário.
+    &lt;button type="submit" class="btn btn-default btn-success">
+        Twittar
+    &lt;/button>
+&lt;/form>
+        </code>
+    </pre>
+
+    <pre>
+        <code>
+// mesma coisa do index.js
+var express = require('express');
+var router = express.Router();
+
+// Quando acessa essa pagina atráves de um pedido POST, que é o que faço usando o formulário anteriomente.
+// Essa função deverá ser executada.
+router.post('/', function(req, res, next) {
+    // No console de onde você executou o projeto(GitBash/Promp/VisualStudioCode) será mostrado o que é enviado junto ao corpo do pedido.
+    // req é request, que significa pedido.
+  console.log(req.body);
+  // renderizo o twit.hbs e envio o objeto que está dentro do corpo do pedido que fiz.
+  res.render('twit', req.body);
+});
+
+// mesma coisa do index.js
+module.exports = router;
+        </code>
+    </pre>
+
+    <pre>
+        <code>
+// O objeto que é enviado para o twit.hbs possui 4 váriaveis, que é os 4 inputs do formulário.
+&lt;h1>
+    // acesso a váriavel consumer_key diretamente do objeto enviado
+    { {consumer_key}}
+&lt;/h1>
+&lt;h1>
+    // acesso a váriavel consumer_secret diretamente do objeto enviado
+    { {consumer_secret}}
+&lt;/h1>
+&lt;h1>
+    // acesso a váriavel access_token diretamente do objeto enviado
+    { {access_token}}
+&lt;/h1>
+&lt;h1>
+    // acesso a váriavel access_token_secret diretamente do objeto enviado
+     { {access_token_secret}}
+&lt;/h1>
+        </code>
+    </pre>
+
+    <pre>
+        <code>
+// importo o router que está dentro do arquivo twitter.js
+let twitterRouter = require('./routes/twitter');
+// configuro que quando acessarem o caminho localhost:8080/Twit será chamado o router twitterRouter, que é o Router do twitter.js
+app.use('/Twit', twitterRouter);
+        </code>
+    </pre>
+
+    <p> Mas como você pode ver, isso não fará nada, teremos que colocar um novo campo no formulário que será o texto do Twitt, lá no arquivo index.hbs</p>
+
+    <pre>
+        <code>
+// coloque depois do quarto input, mas antes do botão
+&lt;div class="form-group">
+    &lt;label for="texto"> Texto Twitt &lt;/label>
+    &lt;input type="text" class="form-control" id="texto" name="texto">
+&lt;/div>
+        </code>
+    </pre>
+
+    <p>
+        Finalmente chegou a hora de adicionarmos o modulo Twit. Pare de executar o programa clicando ctrl + c na linha de comando(do GitBash/Promp/VisualStudioCode) 
+        e escreva: npm install twit. Aperte Enter e execute o projeto novamente.
+    </p> 
+
+    <img src="/images/Twitter2/installTwit.png">
+
+    <p> Em seguida vá ate o arquivo twitter.js e escreva: </p>
+
+    <pre>
+        <code>
+// mesma coisa de antes
+let express = require('express');
+let router = express.Router();
+// importando o modulo twit.
+let twit = require('twit');
+
+// mesma coisa de antes
+router.post('/', function(req, res, next) {
+  // a diferença de agora, é que em vez de eu informar no console o que recebo do formulário.
+  // irei criar uma váriavel do tipo twit com as configurações que peguei do formulário.
+  // Mesma coisa que fiz no projeto twitter parte 1.
+  let Twitter = new twit({
+    consumer_key:         req.body.consumer_key,
+    consumer_secret:      req.body.consumer_secret,
+    access_token:         req.body.access_token,
+    access_token_secret: req.body.access_token_secret 
+  });
+
+    // E em seguida, irei fazer um pedido do tipo post pro twitter
+    // E diferente de antes, irei pegar a váriavel texto(req.body.texto) que veio junto ao corpo(req.body) do pedido.
+    // body significa corpo.
+  Twitter.post('statuses/update', {status : req.body.texto }, (err, data, response) => {
+    if(err)
+     {
+        console.log(err);
+     }
+  });
+  // renderizo o arquivo twitt.hbs e envio junto o objeto que está no corpo do pedido(req.body)
+  res.render('twit', req.body);
+});
+
+module.exports = router;
+        </code>
+    </pre>
+
+    <img src="/images/Twitter2/twitterJS2.png">
+
+    <p>No arquivo twit.hbs, escreva e apague o espaço do { {: </p>
+
+    <pre>
+        <code>
+&lt;h1>
+// acessando a váriavel texto que veio junto com o corpo do pedido(req.body) para a pagina localhost:8080/Twit
+    { {texto}}
+&lt;/h1>
+        </code>
+    </pre>
+
+    <img src="/images/Twitter2/twitHBS2.png">
+
+    <p> Agora que terminamos, entre em localhost:8080 e coloque um texto no quinto input, aperte no botão Twittar e <a target="_blank" href="https://twitter.com/viniciusLviana">veja</a> se funcionou. </p>
+
+    <img src="/images/Twitter2/Index4.png">
+    <br><br><br>
+    <img src="/images/Twitter2/Twit2.png">
+
+    <h1 class="title2"> OBS: </h1>
+
+    <p>
+        Se você entrar em localhost:8080/Twit escrevendo o link e acessando diretamente, sem clicar no botão do localhost:8080, vai aparecer uma mensagem de erro informando 
+        "Cannot GET /Twit", traduzindo: "não consegue acessar /Twit usando um pedido GET", eu teria que ir em twitter.js e escrever o código para quando ele acessar 
+        localhost:8080/Twit atráves de um pedido GET fazer "tal coisa". Futuramente farei a parte, que será um site que irá salvar os twitters que fiz no MySQL local 
+        ou SQL Server Local, ainda não sei exatamente, e quando acessar localhost:8080/Twit usando um pedido GET, ele mostrará todos os Twits que fiz e falar quais 
+        foram deletados.
+    </p>
+
+</div>

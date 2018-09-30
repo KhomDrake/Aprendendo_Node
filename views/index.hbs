@@ -1,0 +1,104 @@
+<div class="container">
+    <h1 class="title"> O que é Node JS ? </h1>
+
+    <p>
+        Node JS é uma plataforma javascript para criação de aplicações web, de alta perfomance e com facilidade de
+        escalamento. É feita em cima da engine V8,
+        uma engine javascript escrita em c++, um dos motivos para a alta perfomance de Node JS.
+    </p>
+
+    <br>
+
+    <h1 class="title"> Execução Assíncrona do Node JS </h1>
+
+    <p>
+        Normalmente, quando escrevemos código em programação ele é síncrono, ou seja, ocorre em sequência e caso um código esteja esperando uma resposta de um banco de 
+        dados, por exemplo, o código fica bloqueado ate a função terminar de ser executada.
+    </p>
+        <pre>
+        <code>
+function LendoDados()
+{
+     // pegando os dados do banco de dados
+    let dados = pegandoDadosBD();
+    // o programa vai esperar os dados chegar, para prosseguir com o código
+    // informar os dados coletados no console.
+    console.log(dados);
+    // Só depois de executar todo o resto, ele executa essa linha
+    console.log(1 + 1);
+
+    // utilizo let pois é o padrão na versões mais novas de javascript.
+    // sempre é recomendavel utilizar let, evita vários erros.
+}
+        </code>
+        </pre>
+
+    <p>
+        Em javascript, enquanto a função "pegandoDadosBD" não terminasse de ser executada, o resto do código não seria executada.
+        Ela é sequencial, espera o código atual finalizar para prosseguir para o próximo, mesmo que a próxima linha seja uma simples soma de dois números qualquer.
+    </p>
+    <p>
+        Uma execução Assíncrona, como é em Node JS, a função "pegandoDadosBD" continuaria em execução esperando os dados, mas o código não 
+        seria bloqueado.
+    </p>
+
+        <pre>
+        <code>
+function LendoDados()
+{
+    // Ele executaria a função pegandoDadosBD como em javascript normal, mas mandaria uma função anonima(conceito que explicarei mais a frente)
+    // E essa função anonima, só seria executada após a função pegandoDadosBD terminasse de ser executada, retornando o valor recebido para a váriavel
+    // dados da função anonima.
+    pegandoDadosBD((dados) => {
+        console.log(dados)
+    });
+    // a função pegandoDadosBD estaria sendo executada em paralelo
+    // dessa forma, o código não seria bloqueado
+    console.log(1 + 1);
+}
+        </code>
+        </pre>
+
+    <h1 class="title"> Node JS é single threaded </h1>
+
+    <p>
+        Normalmente, quando existe execução simultanea, ela é feita utilizando multi-threading. Thread é um pequeno programa que trabalha como um subsistema,
+        sendo uma forma de um processo se autodividir em duas ou mais tarefas. É o termo em inglês para Linha ou Encadeamento de Execução. Essas tarefas múltiplas
+        podem ser executadas simultaneamente para rodar mais rápido do que um programa em um único bloco ou praticamente juntas, mas que são tão rápidas que parecem 
+        estar trabalhando em conjunto ao mesmo tempo.
+    </p>
+    <br>     
+
+    <img src="/images/Multi-Threading.jpg" >
+    <br>    <br>    
+    <p> 
+        Na imagem, mostra como é a simultaneadade usando multi-threading, existem vários Workers(código rodando em threadeds diferentes) e cada uma dela tem 
+        espaços em vermelho, onde o código é bloqueado pois está esperando alguma função terminar de executar, mas como é multi-threading, ainda existe atividades
+        ocorrendo nas outras threadeds.
+    </p>
+    <br>
+    <img src="/images/Single Threaded.jpg">
+    <br>    <br>    
+
+    <p>
+        Enquanto na single threaded do Node, ele utiliza de Loops de Eventos para enquanto uma função que está em execução, como a pegandoDadosBD que pega dados 
+        do banco de dados, esperando o dado chegar, o Loops de Eventos utiliza aquele espaço na Thread para a execução de outra image. Exatamente como é mostrado 
+        na imagem.
+    </p>
+
+    <h1 class="title">
+        Como Baixar Node ?
+    </h1>
+
+    <p>
+        Primeiro, deve acessar o site do <a href="https://nodejs.org/en/"> Node </a> e selecionar a versão que deseja baixar. Melhor baixar a 8.12.0 LTS, que é a 
+        recomendada atualmente, mas se quiser pode baixar a mais atual. Só executar o arquivo que for baixado e seguir o passo a passo de instalação. 
+        O NPM vem junto, então não é necessário se preocupar em baixá-lo.
+    </p>
+    <br>
+    <br>
+    <br>
+    <p> Uma explicação basica de <a href="/NPM"> NPM </a></p>
+    
+    <p> Criando um projeto Node para twittar no <a href="/Twitter/Parte1"> Twitter </a></p>
+</div>

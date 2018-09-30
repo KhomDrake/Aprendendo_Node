@@ -1,0 +1,254 @@
+<div class="container">
+
+    <h1 class="title"> Projeto Twitter 1/2 </h1>
+
+    <p> 
+        Primeiro vou ensinar como fazer um projeto simples para twittar no Twitter diretamente do Git Bash ou do promp de comando. Em seguida, tem a segunda parte 
+        que é usando um servidor local feito em Express.
+    </p>
+
+    <h1 class="title2"> Preparando o Ambiente </h1>
+
+    <p> 
+        Baixe o <a target="_blank" href="https://nodejs.org/en/">Node</a>.
+    </p>
+    
+    <img src="/images/Instalando_Node.png">
+
+    <p> Crie uma pasta no seu computador, o nome é de sua preferência, vou chama-lá de App Twitter </p>
+
+    <img src="/images/Pasta.png">
+
+    <p> Abra ela e acesse o Git Bash ou o Promp de comando dentro dela, recomendo utilizar o Git Bash.</p>
+
+    <img src="/images/GitBash1.png">
+
+    <p> No Git Bash(ou Promp De Comando) escreva npm init e aperte Enter</p>
+
+    <img src="/images/npmInit1.png">
+
+    <p>
+        Vai aparecer esse texto: "
+        This utility will walk you through creating a package.json file.
+        It only convers the most common items, and tries to guess sensible defaults."
+        <br> 
+        Traduzindo signifca: "Esse utilitário vai te ajudar a criar um arquivo chamado
+        package.json. Esse utilitário só cobre os itens mais comuns e tenta adivinhar
+        os padrões sensíveis da configuração."
+    </p>
+
+    <img src="/images/npmInit2.png">
+
+    <pre> 
+
+        * Primeiro, ele pergunta o nome do projeto e da uma sugestão de colocar o nome igual ao nome da pasta,
+         se não quiser alterar, só clicar Enter. Se colocar um nome, não coloque espaços.
+
+        * Em seguida, pergunta a versão desse pacote.
+
+        * Uma descrição sobre ele.
+
+        * O Arquivo principal dele, que é o que vai ser executado, nesse caso será o index.js.
+
+        * Test Command e Git Repository, pode ignorar.
+
+        * Keywords é as palavras chaves do nosso projeto, ignora também.
+
+        * O nome do Autor desse projeto.
+
+        * O tipo de licença desse projeto, pode ignorar também.
+
+        * Em seguida, ele mostra uma pre visualização de como ficarar o package.json e pergunta se a configuração está certa.
+
+        * Caso queria mudar algo, escreva qualquer coisa que não seja yes para abortar a criação do package.json. Ele não automáticamente sai, para sair clique 
+        Ctrl + C e escreva npm init novamente, para recomeçar o processo. 
+
+        * Caso esteja tudo certo no final, só escrever yes.
+     </pre>
+     
+     <img src="/images/npmInit3.png">
+
+     <p> Agora na pasta que você havia criado existe um arquivo chamado package.json, que é a configurações do seu projeto Node. </p>
+
+     <img src="/images/package.json.png">
+
+     <p> Volte para o Git Bash, escreva para instalar o modulo twit e aperte Enter.</p>
+
+     <pre>
+         npm install twit --save
+     </pre>
+
+     <img src="/images/npmInstallTwit.png">
+
+     <p>
+        Esse comando instala o modulo <a target="_blank" href="https://www.npmjs.com/package/twit">Twit</a>. Caso queira entrar no link para verificar outras possibilidades
+        de coisas que podemos fazer usando esse modulo, fique a vontade para tentar outras coisas, mas por enquanto só estou mostrando como twittar, talvez outro dia mostro 
+        outras possibilidades.
+        <br>
+        O "--save" serve para ele automáticamente adicionar no package.json a informação que esse meu projeto depende do modulo twit. 
+    </p>
+
+    <p>
+        Na pasta agora tem o package-lock.json e uma pasta node_modules. package-lock.json é um outro arquivo de configuração para o projeto e a pasta node_modules, é onde 
+        fica os arquivos dos modulos que esse projeto depende, nesse caso, seria o modulo twitt.
+    </p>
+
+        <h1 class="title2"> Começando a Programar </h1>
+
+    <p>
+        Crie um arquivo index.js na pasta que você criou e vamos começar a programar.
+    </p>
+
+    <img src="/images/index.js.png">
+
+    <pre>
+        <code>
+// Para aqueles que estudam Java com o Tiago ou já viram Java, o require é como um import.
+// Para aqueles que não virão, o require vai tentar localizar um arquivo de javascript chamado 'twit' dentro da pasta node_modules e vai devolver o que ele achar.
+// Nesse caso, a variavel twit vai receber o script que a função require achar.
+let twit = require('twit');
+// Crio uma outra váriavel
+let Twitter;
+// Transformo essa váriavel em uma váriavel do tipo twit e como parametro para o seu constructor, ela necessita de um Objeto Javascript com essas quatro informações
+// para fazer conexão com uma conta do Twitter. Sem essas informações, não consigo twittar.
+Twitter = new twit({
+  consumer_key:         '',
+  consumer_secret:      '',
+  access_token:         '',
+  access_token_secret:  '',
+});
+// E como eu pego essas informações ?
+        </code>
+    </pre>
+
+    <p>
+        Antes era bem simples, mas a parti de julho desse ano é necessário aplicar para se tornar uma Conta de Desenvolvedor do Twitter, então deixarei as minhas para você 
+        ir testando. E por favor, não zoe.
+    </p>
+    <pre>
+        <code>
+let Twitter = new twit({
+  consumer_key:         'WZzaqwfcSxndtXlWfUWwqiSPD',
+  consumer_secret:      'wTswKUzxh1ajb5gV4PlFTSzj3B9gJf7yJcUQMtO6hqnyEwRmrq',
+  access_token:         '281088977-UQiLEMx4sRBQ05w3qjuLS3BKATgHPGnnlgdnJ0KW',
+  access_token_secret:  'fNOY3iyGudgp7tBlk1BMOAOqMv17C5dv5qjZzBg5Eq7oX',
+});
+        </code>
+    </pre>
+
+    <p> Agora que temos as chaves, iremos escrever o código para twittar. </p>
+
+    <pre>
+        <code>
+// a função post() recebe 3 parametros.
+// Primeiro sendo o tipo da ação que vou fazer, nesse caso um 'statuses/update' para twittar.
+// Segundo é o que vou mandar para o servidor do twitter, nesse caso um objeto com a váriavel status, que tem como valor 'Twitando', essa váriavel status é o texto
+// do twitt.
+// Terceiro é uma função, escrevi uma função anonima.
+// Esse função recebe 3 parametros, uma possível mensagem de erro.
+// O dado(data) que posso receber do servidor do twitter.
+// E a resposta(response) do servidor
+Twitter.post('statuses/update', { status: 'Twitando' }, (err, data, response) => {
+    // verifico se o err tem valor, porque caso tiver, deve ter ocorrido algum erro.
+    if(err)
+    {
+        console.log(err);
+    }
+});
+
+// não rode o código mais de uma vez com o mesmo twitt, o Twitter não gosta de Twitts duplicados.
+// Mude o texto se for rodar de novo.
+        </code>
+    </pre>
+
+    <img src="/images/twitt1.png">
+
+    <p> Para verificar se funcionou, veja no meu <a target="_blank" href="https://twitter.com/viniciusLviana">Twitter</a></p>
+
+    <p>
+        Para rodar o código, caso esteja escrevendo o código no Visual Studio Code, deve clicar Ctrl + ' para abrir o promp do Visual Studio Code 
+        e só escrever nele "node index.js" e apertar Enter. Se for no Git bash ou Promp, deve abrir eles na pasta onde está o index.js, escrever node index.js e 
+        apertar Enter.
+    </p>
+
+    <img src="/images/nodeIndex1.png">
+
+    <p>
+        Agora temos uma aplicação que twitta. Pensando bem, não é chato ter que toda hora vir no código e mudar o texto ? Seria mais interessante que na hora que escrevermos node 
+        index.js já pudessemos falar o texto do twitter e ele mandar esse twitter. Irei mostrar como fazer essa mudança.
+    </p>
+
+    <pre>
+        <code>
+// Comentamos só essa parte.
+// Twitter.post('statuses/update', { status: 'Twitando' }, (err, data, response) => {
+//     if(err)
+//     {
+//         console.log(err);
+//     }
+// });
+
+// Criamos uma variavel que vai receber o que irei escrever no prompt/gitbash/visualstudiocode.
+let text = process.argv;
+// Para eu acessar a informação do que escrevi no prompt/gitbash/visualstudiocode, utilizo o objeto process e acesso a sua váriavel argv
+// Ela me devolve uma lista do texto que escrevi.
+// caso escreva: node index.js tudo que eu quis
+// o valor de process.argv será: ['node', 'index.js', 'tudo', 'que', 'eu', 'quis']
+// uma lista de texto.
+
+// irei criar uma função que pega uma lista de texto e converte em um texto único
+function listaPraTexto(list)
+{
+    let texto = '';
+    // esse é um comando em programação para fazer looping.
+    // O For funciona assim.
+    // Primeiro defino onde o looping vai começar: let i = 2; ele vai começar no valor 1
+    // Segundo digo ate onde ele vai: i > list.length; Ele vai do 2 ate o tamanho da lista 
+    // E Terceiro, o quanto ele vai aumentar a cada vez: i++; Ele vai aumentar 1 a cada vez
+    // Se a lista tiver 4 elementos
+    // ela vai começar no terceiro, sei que ali está 2, mas em programação uma lista começa no indice 0.
+    // Então o primeiro elemento, está no indice 0.
+    // Vai verificar se o indice atual é menor que o tamanho da lista, nesse caso seria verdade.
+    // Executaria o código dentro do for e aumentaria um valor no indice atual, que iria para 3.
+    // E verificaria se 3 é menor que o tamanho da lista, também verdade.
+    // Executaria o código e aumentaria um no indice, indice agora tem o valor 4.
+    // Em seguida verificaria se 4 é menor que o valor do tamanho da lista e ele não seria verdade, já que 4 não é menor que 4.
+    // A execução sairia do for e continuaria o código.
+    // Já que sempre os dois primeiros elementos serão node e index.js, só preciso pegar o restante.
+    for (let i = 2; i < list.length; i++) 
+    {
+        // para cada vez que a condição for verdade, irei pegar o texto que está no indice atual da lista e somaria ao texto da variavel texto
+        // e colocaria um espaço em branco para o texto não ficar junto.
+        texto += list[i] + " ";
+    }
+
+    // retorno o valor da variavel texto
+    return texto;
+}
+// tudo continuaria o mesmo, só que em vez de escrever o texto diretamente do código
+// Seria executado a função listaPraTexto e ela receberia o que eu escrevi no prompt/gitbash/visualstudiocode
+// E retornaria um texto com tudo que escrevi.
+Twitter.post('statuses/update', {status : listaPraTexto(text) }, (err, data, response) => {
+    if(err)
+     {
+            console.log(err);
+     }
+});
+        </code>
+    </pre>
+
+    <p>
+        Executaria do mesmo jeito de antes, mas agora poderia escrever o quanto quiser depois e tudo seria o texto do meu twitt. Exemplo: 'node index.js programando em node'
+    </p>
+
+    <p> Para verificar se funcionou, veja no meu <a href="https://twitter.com/viniciusLviana">Twitter</a></p>
+
+    <img src="/images/nodeIndex2.png">
+
+    <br>
+    <br>
+    <br>
+
+    <p> <a target="_blank" href="/Twitter/Parte2"> Parte2 </a></p>
+
+</div>
