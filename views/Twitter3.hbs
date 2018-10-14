@@ -17,9 +17,13 @@
         quase igual ao que eu falei para utilizar anteriormente, usando o comando express --git --hbs, mas esse eu personalizei.    
     </p>
 
+    <img src="/images/Twitter2/github.png">
+
     <p> 
         Depois de clonar, altere o nome da pasta, coloquei para Pensamento Cientifico, mas você pode colocar o que você quiser.
     </p>
+
+    <img src="/images/Twitter2/gitClone.png">
 
     <p>
         Abra o Git Bash na pasta e utilize o comando:
@@ -30,6 +34,8 @@
 npm install
         </code>
     </pre>
+
+    <img src="/images/Twitter2/npmInstall.png">
 
     <p>
         Para instalar todas as dependências. Também abre a pasta no Visual Studio Code(ou o seu editor de preferência)
@@ -44,6 +50,8 @@ npm install
 npm install nodemon --save-dev
         </code>
     </pre>
+
+    <img src="/images/Twitter2/installNodemon.png">
 
     <p>
         Esse comando irá instalar nodemon, um módulo que reiniciar o código Node toda vez que eu fizer uma alteração em um arquivo e salvar essa alteração.
@@ -61,6 +69,8 @@ npm install nodemon --save-dev
     </code>
 </pre>
 
+    <img src="/images/Twitter2/package.json1.png">
+
     <p> Insira: </p>
 
 <pre>
@@ -71,6 +81,8 @@ npm install nodemon --save-dev
 }
     </code>
 </pre>
+
+    <img src="/images/Twitter2/package.json2.png">
 
     <p>
         No "scripts" do package.json que configuro os comando que posso colocar na linha de comando(do prompt, visual studio code ou git bash) para fazer a
@@ -87,6 +99,8 @@ npm install nodemon --save-dev
 npm install mssql --save
         </code>
     </pre>
+
+    <img src="/images/Twitter2/installMSSQL.png">
 
     <p>
         Para instalar o módulo mssql, que será útil para eu fazer a conexão com o banco de dados.
@@ -114,6 +128,8 @@ npm install mssql --save
         Caso ainda não executou o comando, npm run dev, na linha de comando(do prompt/Visual Studio Code/ Git Bash), execute ele agora, pois vai ser necessário.
     </p>
 
+    <img src="/images/Twitter2/npmRunDev.png">
+
     <p>
         Abra no seu navegador de preferência, vou usar o Chrome nesse tutorial, e vá para localhost:5000.
     </p>
@@ -129,9 +145,13 @@ npm install mssql --save
     </code>
 </pre>
 
+    <img src="/images/Twitter2/layout.png">
+
     <p>
         Vamos apagar todo o html que já tem lá e vamos fazer um formulário básico, já que o index.hbs vai ser onde a pessoa vai mandar o seu Pensamento.
     </p>
+
+    <img src="/images/Twitter2/index1.png">
 
 <pre>
     <code>
@@ -182,6 +202,8 @@ npm install mssql --save
     <p>
         A pagina inicial do site será assim.
     </p>
+
+    <img src="/images/Twitter2/index2.png">
 
     <p>
         Pode fazer mudanças se quiser, porque não tenho criatividade para designer de site e etc...
@@ -654,7 +676,7 @@ router.post('/', function(req, res, next) {
     </p>
 
     <p>
-        Em signup.js coloque: .
+        Em signup.js coloque:
     </p>
 
     <pre>
@@ -700,7 +722,6 @@ router.post('/', function(req, res, next) {
     <p>
         Já que foi válidado, temos que agora ir para o parte do banco de dados e o módulo que utilizaremos para comunicar com o banco de dados é
         o mssql. O Professor Yoshi vai passar o módulo Tedious, mas ele é bem ruim, o mssql é bem mais simples e fácil de utilizar.
-        Na linha de comando faça o comando: npm install mssql --save.
     </p>
 
     <h1 class="title2"> Comunicando com o banco de dados </h1>
@@ -983,6 +1004,8 @@ module.exports = router;
         Vamos instalar três módulos: express-session, express-validator e session-file-store.
     </p>
 
+    <img src="/images/Twitter2/installModulosCookie.png">
+
     <p>
         Em app.js escreva:
     </p>
@@ -1010,6 +1033,8 @@ app.use(expressValidator());
 
     </code>
 </pre>
+
+    <img src="/images/Twitter2/middlewaresCookies.png">
 
     <p>
         Agora, em todo pedido feito no meu servidor, vai ter uma váriavel chamada session, que contem as informações da sessão atual.
@@ -1264,7 +1289,7 @@ router.get('/users/logout', (req, res, next) => {
 
 <p>
     E com isso, terminamos. Pode testar e se tiver algum erro, só me chamar no whats.
-    Link o projeto no <a target="_blank" href="https://github.com/KhomDrake/Scientific-Thoughts/tree/final">github</a>.
+    Link do projeto completo no git hub projeto no <a target="_blank" href="https://github.com/KhomDrake/Scientific-Thoughts/tree/final">github</a>.
 </p>
 
 
