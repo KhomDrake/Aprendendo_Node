@@ -755,14 +755,14 @@ let config = {
 // e caso não exista, vai rodar o comando para criar as tabelas.
 mssql.connect(config).then(pool => {
     return pool.request()
-    .query("IF NOT EXISTS (SELECT * FROM dbo.sysobjects where id = object_id(N'dbo.[Users]') and OBJECTPROPERTY(id, N'IsTable') = 1)" +
-"	BEGIN " +
-	" 	CREATE TABLE Users " +
-		"(" +
+    .query("IF NOT EXISTS (SELECT * FROM dbo.sysobjects where id = object_id(N'dbo.[Users]') and OBJECTPROPERTY(id, N'IsTable') = 1) " +
+    "BEGIN " +
+	"CREATE TABLE Users" +
+		" (" +
         "id int primary key IDENTITY(1,1)," +
         "username varchar(30), " +
         "senha varchar(30) " +
-		")" +
+		") " +
 	"END")
 }).then(result => {
 
@@ -775,9 +775,9 @@ mssql.close();
 
 mssql.connect(config).then(pool => {
     return pool.request()
-    .query("IF NOT EXISTS (SELECT * FROM dbo.sysobjects where id = object_id(N'dbo.[Pensamentos]') and OBJECTPROPERTY(id, N'IsTable') = 1)" +
-"	BEGIN " +
-	" 	CREATE TABLE Pensamentos " +
+    .query("IF NOT EXISTS (SELECT * FROM dbo.sysobjects where id = object_id(N'dbo.[Pensamentos]') and OBJECTPROPERTY(id, N'IsTable') = 1) " +
+" BEGIN " +
+	" CREATE TABLE Pensamentos " +
 		"(" +
         "id int primary key IDENTITY(1,1)," +
         "userid int foreign key references Users(id), " +
