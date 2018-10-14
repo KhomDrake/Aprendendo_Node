@@ -17,13 +17,13 @@
         quase igual ao que eu falei para utilizar anteriormente, usando o comando express --git --hbs, mas esse eu personalizei.    
     </p>
 
-    <img src="/images/Twitter2/github.png">
+    <img src="/images/Twitter3/github.png">
 
     <p> 
         Depois de clonar, altere o nome da pasta, coloquei para Pensamento Cientifico, mas você pode colocar o que você quiser.
     </p>
 
-    <img src="/images/Twitter2/gitClone.png">
+    <img src="/images/Twitter3/gitClone.png">
 
     <p>
         Abra o Git Bash na pasta e utilize o comando:
@@ -35,7 +35,7 @@ npm install
         </code>
     </pre>
 
-    <img src="/images/Twitter2/npmInstall.png">
+    <img src="/images/Twitter3/npmInstall.png">
 
     <p>
         Para instalar todas as dependências. Também abre a pasta no Visual Studio Code(ou o seu editor de preferência)
@@ -51,7 +51,7 @@ npm install nodemon --save-dev
         </code>
     </pre>
 
-    <img src="/images/Twitter2/installNodemon.png">
+    <img src="/images/Twitter3/installNodemon.png">
 
     <p>
         Esse comando irá instalar nodemon, um módulo que reiniciar o código Node toda vez que eu fizer uma alteração em um arquivo e salvar essa alteração.
@@ -69,7 +69,7 @@ npm install nodemon --save-dev
     </code>
 </pre>
 
-    <img src="/images/Twitter2/package.json1.png">
+    <img src="/images/Twitter3/package.json1.png">
 
     <p> Insira: </p>
 
@@ -82,7 +82,7 @@ npm install nodemon --save-dev
     </code>
 </pre>
 
-    <img src="/images/Twitter2/package.json2.png">
+    <img src="/images/Twitter3/package.json2.png">
 
     <p>
         No "scripts" do package.json que configuro os comando que posso colocar na linha de comando(do prompt, visual studio code ou git bash) para fazer a
@@ -100,7 +100,7 @@ npm install mssql --save
         </code>
     </pre>
 
-    <img src="/images/Twitter2/installMSSQL.png">
+    <img src="/images/Twitter3/installMSSQL.png">
 
     <p>
         Para instalar o módulo mssql, que será útil para eu fazer a conexão com o banco de dados.
@@ -128,7 +128,7 @@ npm install mssql --save
         Caso ainda não executou o comando, npm run dev, na linha de comando(do prompt/Visual Studio Code/ Git Bash), execute ele agora, pois vai ser necessário.
     </p>
 
-    <img src="/images/Twitter2/npmRunDev.png">
+    <img src="/images/Twitter3/npmRunDev.png">
 
     <p>
         Abra no seu navegador de preferência, vou usar o Chrome nesse tutorial, e vá para localhost:5000.
@@ -145,13 +145,13 @@ npm install mssql --save
     </code>
 </pre>
 
-    <img src="/images/Twitter2/layout.png">
+    <img src="/images/Twitter3/layout.png">
 
     <p>
         Vamos apagar todo o html que já tem lá e vamos fazer um formulário básico, já que o index.hbs vai ser onde a pessoa vai mandar o seu Pensamento.
     </p>
 
-    <img src="/images/Twitter2/index1.png">
+    <img src="/images/Twitter3/index1.png">
 
 <pre>
     <code>
@@ -203,7 +203,7 @@ npm install mssql --save
         A pagina inicial do site será assim.
     </p>
 
-    <img src="/images/Twitter2/index2.png">
+    <img src="/images/Twitter3/index2.png">
 
     <p>
         Pode fazer mudanças se quiser, porque não tenho criatividade para designer de site e etc...
@@ -1002,7 +1002,7 @@ module.exports = router;
         Vamos instalar três módulos: express-session, express-validator e session-file-store.
     </p>
 
-    <img src="/images/Twitter2/installModulosCookie.png">
+    <img src="/images/Twitter3/installModulosCookie.png">
 
     <p>
         Em app.js escreva:
@@ -1020,7 +1020,7 @@ let FileStore = require('session-file-store')(session);
 // criando um middleware para toda vez que tiver numa nova sessão de um navegador novo, salvar uma sessão.
 app.use(session({
     // esse secret é bom deixar guardado como uma váriavel do sistema.
-    // mas você pode deixar qualquer coisa aqui
+    // mas você pode deixar qualquer como senha
   secret: 'my express secret',
   saveUninitialized: true,
   resave: true,
@@ -1032,12 +1032,12 @@ app.use(expressValidator());
     </code>
 </pre>
 
-    <img src="/images/Twitter2/middlewaresCookies.png">
+    <img src="/images/Twitter3/middlewaresCookies.png">
 
     <p>
         Agora, em todo pedido feito no meu servidor, vai ter uma váriavel chamada session, que contem as informações da sessão atual.
         E para eu continuar logado, adiciono um campo chamado user a essa sessão, para eu verificar se o user está nulo ou não,
-        pq se tiver, não tem ninguém logado nesse navegador e tem certos lugares, que pessoas não logadas não podem entrar, como a página inicial onde 
+        pq se tiver, não tem ninguém logado nesse navegador e tem certos lugares, que usuários não logados não podem entrar, como a página inicial onde 
         eu posso enviar os pensamentos. Só que ainda isso não acontece, iremos adicionar isso agora, vá em index.js. Também devemos adicionar as coisas que já 
         deveriamos ter adicionados anteriormente.
     </p>
