@@ -1,0 +1,34 @@
+<div class="container">
+
+    <h1 class="title"> O que é Middlewares ? </h1>
+
+    <p> 
+        Como explicado anteriormente, um site funciona atráves do protocolo HTTP(que são os pedidos que são feitos ao servidor e as resposta que ele pode dar 
+        dependendo do pedido) e o que você já viu no app.js da aplicação express foi o seguinte código:
+    </p>
+
+    <pre>
+        <code>
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser());
+app.use(logger('dev'));
+app.use('/', indexRouter);
+        </code>
+    </pre>
+
+    <p>
+        O app é a váriavel que é a aplicação Express e o use é uma função que recebe uma função como parâmetro, essa função que o use recebe é o middleware.
+        São funções, que quando são feitos pedidos ao servidor, são executadas, algumas só serão executadas em certas rotas do meu servidor, que é o caso do 
+        app.use('/', indexRouter), onde informo que só no caminho '/' do meu servidor que a função indexRouter será executada, enquanto nos outros, como não 
+        especifiquei nenhum tipo de caminho, em qualquer caminho que meu servidor tiver um pedido essas funções serão executadas.
+    </p>
+
+    <p>
+        E para que eu utilizaria isso ? As vezes é necessário tratar o pedido atráves de funções, como a express.json() que permite que meu servidor possa entender
+        pedidos em formato <a target="_blank" href="https://www.json.org/json-pt.html">JSON</a>. É importante clicar no link e entender como funciona um arquivo JSON,
+        utilizarei ele nos projetos.
+    </p>
+
+</div>

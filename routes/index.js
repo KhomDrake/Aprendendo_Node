@@ -5,16 +5,12 @@ router.get('/', (req, res, next) => {
   res.render('index');
 });
 
-router.get('/NPM', (req, res, next) => {
-  res.render('NPM');
+router.get('/Middlewares', (req, res, next) => {
+  res.render('Middlewares');
 });
 
-router.get('/Twitter/parte1', (req, res, next) => {
-  res.render('Twitter');
-});
-
-router.get('/Twitter/parte2', (req, res, next) => {
-  res.render('Twitter2');
+router.get('/FuncoesAnonimas', (req, res, next) => {
+  res.render('Anonimas');
 });
 
 module.exports = router;

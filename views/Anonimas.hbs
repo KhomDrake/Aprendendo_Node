@@ -1,0 +1,203 @@
+<div class="container">
+
+    <h1 class="title"> O Que São Funções Anônimas em Javascript ? </h1>
+
+    <p> 
+        Como explicado já pelo professor, funções são como uma subrotina que é executada quando chamo ela, eu preciso dar nomes para elas para chamá-las.
+    </p>
+
+    <pre>
+        <code>
+function Somar(a, b)
+{
+    var c = a + b;
+    return c;
+}
+        </code>
+    </pre>
+
+    <p>
+        Essa função Somar, recebe dois números como parâmetros e retorna a soma desses dois parâmetros. Quando eu chama ela dessa forma, Somar(5, 5), o meu código 
+        vai esperar ela ser executada e quando terminar de executar, meu código continuará. Essa função soma dois números e retornar o valor da soma 
+        , então posso fazer assim:
+    </p>
+
+<pre>
+    <code>
+var c = Somar(10,15);
+    </code>
+</pre>
+
+    <p>
+        Qual será o valor da váriavel c ? Será 25. A função Somar recebeu como parâmetro os valores 10 e 15 e dentro dela, a váriavel a terá o valor 10 e a váriavel 
+        b terá o valor 15, já que eu escrevi Somar(10, 15), se tivesse escrevido Somar(15, 10), o resultado seria o mesmo, mas a váriavel a que teria o valor 15
+        e a váriavel b teria o valor 10.
+    </p>
+
+    <p>
+        Eu não precisava ter criado uma função para isso, poderia ter feito assim:
+    </p>
+
+<pre>
+    <code>
+var c = 10 + 15;
+    </code>
+</pre>
+
+    <p>
+        Ou
+    </p>
+
+<pre>
+    <code>
+var a = 10;
+var b = 15;
+var c = a + b;
+    </code>
+</pre>
+
+    <p>
+        Essa três formas que mostrei, teriam o mesmo resultado, váriavel c seria 25, mas porque usar a função é melhor. Por se eu quisesse fazer algo assim:
+    </p>
+
+    <pre>
+        <code>
+var a = Somar(5, 5);
+var b = Somar(7.5, 7.5);
+var c = Somar(a, b);
+var d = Somar(c, a);
+var e = Somar(Soma(c, d), Soma(a, b));
+        </code>
+    </pre>
+
+    <p>
+        Eu teria que fazer dessa forma.
+    </p>
+
+    <pre>
+        <code>
+var a = 5 + 5;
+var b = 7.5 + 7.5;
+var c = a + b;
+var d = c + a;
+var e = (c + d) + (a + b);
+        </code>
+    </pre>
+
+    <p>
+        O resultado é o mesmo e pode ate parecer que não é necessário uma função, mas se eu quisesse agora Somar e multiplicar os valores por 2 ?
+    </p>
+
+    <p>
+        Usando a função, eu poderia simplesmente escrever:
+    </p>
+
+    <pre>
+        <code>
+function Somar(a, b)
+{
+    var c = a + b;
+    return c * 2;
+}
+        </code>
+    </pre>
+
+    <p>
+        E aqui não precisaria mudar nada.
+    </p>
+
+    <pre>
+        <code>
+var a = Somar(5, 5);
+var b = Somar(7.5, 7.5);
+var c = Somar(a, b);
+var d = Somar(c, a);
+var e = Somar(Soma(c, d), Soma(a, b));
+        </code>
+    </pre>
+
+    <p>
+        Funcionaria da mesma forma, mas do outro jeito.
+    </p>
+
+    <pre>
+        <code>
+var a = 2 * (5 + 5);
+var b = 2 * (7.5 + 7.5);
+var c = 2 * (a + b);
+var d = 2 * (c + a);
+var e = 2 * (2 * (c + d)) + (2 * (a + b)));
+        </code>
+    </pre>
+
+    <p>
+        Fica ate mais confuso não é ? Enquanto usando função, só precisei altera uma unica vez, não usando função, precisei fazer várias alteração e 
+        o código ate fica confuso de entender.
+    </p>
+
+    <h1 class="title2">
+        Agora sabemos o porque é importante uma função, mas porque utilizamos uma função anonima ?
+    </h1>
+
+    <p>
+        As vezes utilizamos para transformar uma váriavel em uma função, como no exemplo:
+    </p>
+
+<pre>
+    <code>
+var c = function(a,b) {
+    return a + b;
+}
+    </code>
+</pre>
+
+    <p>
+        Ou quando uma função recebe outra função como parâmetro e nesses casos, não é necessário criar uma função com um nome para passar como parâmetro, 
+        já que vou só utilizar uma única vez essa função, um exemplo bastante disso é o setTimeOut, uma função que recebe uma função como primeiro
+        parâmetro e como segundo parâmetro uma quantidade de tempo(em milisegundos) que deve passar ate setTimeOut executar a função passado como parâmetro.
+        Exemplo:
+    </p>
+
+<pre>
+    <code>
+setTimeOut(function(){
+    var a = 10;
+    var b = 15;
+    var c = a + b;
+}, 2000)
+    </code>
+</pre>
+    <p>
+        A função anônima vai ser executada depois de 2000 milisegundos(2 segundos), eu poderia escrever uma função e passar como parâmetro, mas não é necessário.
+    </p>
+
+    <p>
+        Existe aquela forma de função anônima e existe a função anônima que é escrita dessa forma.
+    </p>
+
+<pre>
+    <code>
+setTimeOut(() => {
+    var a = 10;
+    var b = 15;
+    var c = a + b;
+}, 2000);
+    </code>
+</pre>
+
+    <p>
+        O resultado é o mesmo, mas essa segunda forma de escrever uma função anônima (chamada de função flecha) é a função mais recente para se escrever
+        funções anônimas e deve ser utilizada apenas elas. Sobre o exemplo anterior, de transformar uma váriavel em função, usando função anônima, posso 
+        fazer a mesma coisa usando função flecha, o resultado é o mesmo, mas a função flecha tem uma caracteristica a mais, que não preciso entrar nela no 
+        momento, você só precia entender que esse é o novo jeito de escrever funções anônimas.
+    </p>
+
+    <pre>
+        <code>
+var c = (a, b) => {
+    return a + b;
+};
+        </code>
+    </pre>
+
+</div>

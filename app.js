@@ -20,7 +20,10 @@ let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 
 // puxando o script que está dentro de module.exports que está dentro do script na pasta routers que se chama index.js
-let indexRouter = require('./routes/index');
+const indexRouter = require('./routes/index');
+const nodeRouter = require('./routes/node');
+const NPMRouter = require('./routes/NPM');
+const twitterRouter = require('./routes/twitter');
 
 // criando uma váriavel e transformando ela em uma váriavel do tipo express.
 let app = express();
@@ -36,8 +39,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// 
 app.use('/', indexRouter);
+app.use('/NPM', NPMRouter);
+app.use('/node', nodeRouter);
+app.use('/twitter', twitterRouter);
 
 // Server Local estará sendo hosteado na port 3000 do pc.
 app.listen(3000);

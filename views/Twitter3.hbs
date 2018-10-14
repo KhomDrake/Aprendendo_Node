@@ -1,0 +1,1271 @@
+<div class="container">
+
+    <h1 class="title"> Projeto Twitter 3/3 </h1>
+
+    <h1 class="title2"> Introdução</h1>
+
+    <p> 
+        Fizemos um projeto para Twittar atráves da linha de comando do Git Bash, Prompt e Visual Studio Code e depois fizemos para twittar atráves de um site 
+        hospedado localmente na nossa máquina, agora devemos criar nosso próprio Twitter. O <a target="_blank" href="https://github.com/KhomDrake/Scientific-Thoughts/tree/Final"></a> já está finalizado, eu o chamei de Scientific Thoughts(Pensamentos
+        cientificos, mas você pode personalizar caso queira enquanto segue o passo a passo.
+    </p>
+    
+    <h1 class="title2"> Preparando o ambiente</h1>
+
+    <p> 
+        Primeiro deve fazer um Git Clone desse <a target="_blank" href="https://github.com/KhomDrake/EmptysProjects">projeto</a>, um projeto padrão express,
+        quase igual ao que eu falei para utilizar anteriormente, usando o comando express --git --hbs, mas esse eu personalizei.    
+    </p>
+
+    <p> 
+        Depois de clonar, altere o nome da pasta, coloquei para Pensamento Cientifico, mas você pode colocar o que você quiser.
+    </p>
+
+    <p>
+        Abra o Git Bash na pasta e utilize o comando:
+    </p>
+
+    <pre>
+        <code>
+npm install
+        </code>
+    </pre>
+
+    <p>
+        Para instalar todas as dependências. Também abre a pasta no Visual Studio Code(ou o seu editor de preferência)
+    </p>
+
+    <p>
+        Ainda no git bash, utilize o comando:
+    </p>
+
+    <pre>
+        <code>
+npm install nodemon --save-dev
+        </code>
+    </pre>
+
+    <p>
+        Esse comando irá instalar nodemon, um módulo que reiniciar o código Node toda vez que eu fizer uma alteração em um arquivo e salvar essa alteração.
+        Coloquei esse comando --save-dev, para salvar no package.json esse módulo como uma dependência do desenvolvimento, já que não é necessário esse módulo 
+        quando um Site estiver terminado e hospedado em algum servidor na internet.
+    </p>
+
+    <p> Abra o arquivo package.json e onde está: </p>
+
+<pre>
+    <code>
+"scripts": {
+    "start": "node ./bin/www"
+}
+    </code>
+</pre>
+
+    <p> Insira: </p>
+
+<pre>
+    <code>
+"scripts": {
+    "start": "node ./bin/www",
+    "dev" : "nodemon ./bin/www"
+}
+    </code>
+</pre>
+
+    <p>
+        No "scripts" do package.json que configuro os comando que posso colocar na linha de comando(do prompt, visual studio code ou git bash) para fazer a
+        minha aplicação node ser executada. Como inseri a opção dev, se eu utilizar o comando: npm run dev, minha aplicação será executada utilizando nodemon e 
+        toda vez que atualizar um arquivo, automaticamente a minha aplicação para e executa novamente.
+    </p>
+
+    <p>
+        Em seguida execute o comando:
+    </p>
+
+    <pre>
+        <code>
+npm install mssql --save
+        </code>
+    </pre>
+
+    <p>
+        Para instalar o módulo mssql, que será útil para eu fazer a conexão com o banco de dados.
+    </p>
+
+    <h1 class="title2"> Explicando as mudanças que eu fiz no Projeto Padrão </h1>
+
+    <p>
+        Primeiro, eu separei alguns middlewares em um novo arquivo, chamado middlewares. Para saber mais sobre middlewares, clique 
+        <a target="_blank" href="/Middlewares">aqui</a>, recomendo que clique e leia o que está lá antes de continuar, são informações bem úteis.
+    </p>
+
+    <p>
+        Segundo, criei uma pasta chamada database(banco de dados) e dentro dela, uma arquivo db.js onde ficara o código para a comunicação com o banco de dados.
+    </p>
+
+    <p>
+        E por último, no arquivo www da pasta bin, eu alterei a porta onde a Aplicação vai ser hospedada, era 3000 e coloquei 5000. Pequenass mudanças, mas 
+        gosto mais assim.
+    </p>
+
+    <h1 class="title2"> Começando a Programar </h1>
+
+    <p>
+        Caso ainda não executou o comando, npm run dev, na linha de comando(do prompt/Visual Studio Code/ Git Bash), execute ele agora, pois vai ser necessário.
+    </p>
+
+    <p>
+        Abra no seu navegador de preferência, vou usar o Chrome nesse tutorial, e vá para localhost:5000.
+    </p>
+
+    <p>
+        Vá no arquivo index.hbs, que fica na pasta views, e vamos começar a colocar o front end inicial da aplicação. Primeiro, no layout.hbs coloque uma referência
+        para a biblioteca de CSS bootstrap.
+    </p>
+
+<pre>
+    <code>
+&lt;link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    </code>
+</pre>
+
+    <p>
+        Vamos apagar todo o html que já tem lá e vamos fazer um formulário básico, já que o index.hbs vai ser onde a pessoa vai mandar o seu Pensamento.
+    </p>
+
+<pre>
+    <code>
+        // vou usar a classe container do bootstrap para deixar a pagina centralizada
+&lt;div class="container">
+// o &#123{username}}, vai ser para quando o usuário estiver logado, eu mandar a informação do nome dele quando eu for renderizar o index.hbs
+    &lt;h1>&#123{username}}&lt;/h1>
+    // o formulário, parecido com o da parte 2.
+    // Falei que ele é da classe form, para eu poder ter acesso a esse formulário depois.
+    &lt;form class="form">
+        &lt;h1> Informe o seu pensamento científico &lt;/h1>
+        &lt;div class="form-group">
+            &lt;label for="pensamento"> Pensamento &lt;/label>
+            &lt;textarea type="text" class="form-control" id="pensamento" name="pensamento"> &lt;/textarea>
+        &lt;/div>
+        &lt;div class="form-group">
+            &lt;label for="cientistaFavorito"> Cientista Favorito &lt;/label>
+            &lt;input type="text" class="form-control" id="cientistaFavorito" name="cientistaFavorito">
+        &lt;/div>
+        &lt;div class="form-group">
+            &lt;label for="formula"> Formúla Favorita &lt;/label>
+            &lt;input type="text" class="form-control" id="formula" name="formula">
+        &lt;/div>
+        &lt;button type="submit" class="btn btn-info">
+            Pensar
+        &lt;/button>
+    &lt;/form>
+&lt;/div>
+
+    // gif de carregamento da página, que vai só ficar visível quando estiver carregando pensamentos e depois de carregar os pensamentos, vai ser desativado.
+    &lt;img id="carregando" src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Gray_circles_rotate.gif">
+
+    // estou quebrando a linha duas vezes
+    &lt;br>
+    &lt;br>
+
+    // criando uma divisão onde vai ficar os pensamentos
+    &lt;div class="pensamentos">
+        
+    &lt;/div>
+
+    // o script que vai se rodado no cliente
+    &lt;script src="">
+    &lt;/script>
+    </code>
+</pre>
+
+    <p>
+        A pagina inicial do site será assim.
+    </p>
+
+    <p>
+        Pode fazer mudanças se quiser, porque não tenho criatividade para designer de site e etc...
+    </p>
+
+    <p>
+        Em seguida crie um arquivo na pasta javascript, que está dentro da pasta public, chamado cliente.js.
+    </p>
+
+    <p>
+        Faça referência a esse arquivo no index.hbs.
+    </p>
+
+    <pre>
+        <code>
+    &lt;script src="javascript/cliente.js">
+    &lt;/script>
+        </code>
+    </pre>
+
+    <p>
+        Abra cliente.js e escreva o seguinte código.
+    </p>
+
+<pre>
+    <code>
+let formulario = document.getElementById('formulario');
+let path = "Pensar";
+let gifCarregando = document.getElementById('carregando');
+let divisaoPensamentos = document.getElementById('pensamentos');
+
+Visivel(gifCarregando);
+Invisivel(formulario);
+
+CarregarPensamentos();    
+CarregarPensamentos();    
+
+formulario.addEventListener("submit", (event) => {
+    event.preventDefault();
+    let dadosFormulario = new FormData(formulario);
+    let data = {
+        pensamento : dadosFormulario.get('pensamento'),
+        cientistaFavorito : dadosFormulario.get('cientistaFavorito') == '' ? 'Sem Cientista Favorito(a) Hoje' : dadosFormulario.get('cientistaFavorito'),
+        formula : dadosFormulario.get('formula') == '' ? 'Sem Fórmula Favorita Hoje' : dadosFormulario.get('formula')
+    };
+
+    Visivel(loading);
+    Invisivel(formulario);
+
+    fetch(path, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'content-type': 'application/json'
+        }
+    }).then(resposta => { 
+        console.log(resposta);
+        return resposta.json();
+    }).then(respostaInJson => {
+        Invisivel(gifCarregando);
+        Visivel(formulario);
+        formulario.reset();
+        CarregarPensamentos();
+    });
+}); 
+
+function Visivel(element)
+{
+    element.style.display = '';
+}
+
+function Invisivel(element)
+{
+    element.style.display = 'none';
+}
+
+function CarregarPensamentos()
+{
+    fetch(path)
+        .then(resposta => { 
+            return resposta.json();
+        })
+        .then(Pensamentos => {
+            divisaoPensamentos.innerHTML = '';
+            Pensamentos.forEach(thought => {
+                let div = document.createElement('div');
+                let header = document.createElement('h3');
+                header.textContent = thought.username;
+                let pensamento = document.createElement('p');
+                let date = document.createElement('p');
+                pensamento.textContent = thought.texto;
+                date.textContent = thought.datathought;
+                let cientista, formula;
+                div.appendChild(header);
+                div.appendChild(pensamento);
+                div.appendChild(date);
+                if(thought.cientistaFavorito != '')
+                {
+                    cientista = document.createElement('p');
+                    cientista.textContent = thought.cientistaFavorito;
+                    div.appendChild(cientista);
+                }
+                if(thought.formula != '')
+                {
+                    formula = document.createElement('p');
+                    formula.textContent = thought.formula;
+                    div.appendChild(formula);
+                }
+                divisaoPensamentos.appendChild(div);
+            });
+            NotVisible(loading);
+            Visible(formulario);
+        })
+        .catch(error => console.log(error));
+}
+    </code>
+</pre>
+
+    <p>
+        Esse código é bem complexo, então vou tentar explicar ele o máximo possível.
+    </p>
+
+<pre>
+    <code>
+// aqui é onde eu pego os elementos html que eu criei no index.hbs
+// aqui acesso o formulario, usando uma função que usamos bastante na aula do Gatty
+let formulario = document.getElementById('formulario');
+// aqui só crio uma váriavel que vai guardar o caminho onde vou acessar os pensamentos que estaram salvos no meu servidor.
+let path = "Pensar";
+// acesso o gif de carregamento
+let gifCarregando = document.getElementById('carregando');
+// acesso a divisão onde vai ser colocado os pensamentos
+let divisaoPensamentos = document.getElementById('pensamentos');
+    </code>
+</pre>
+
+<pre>
+    <code>
+// aqui chamo duas funções que criei, que servem deixar um elemento html visivel ou invisivel na tela
+// primeiramente deixo o gif visivel
+Visivel(gifCarregando);
+// e o formulário invisivel
+Invisivel(formulario);
+    </code>
+</pre>
+
+<pre>
+    <code>
+// função onde pego os pensamentos que armazenei no meu servidor e mostro cada pensamento no index.hbs    
+CarregarPensamentos();    
+CarregarPensamentos();    
+    </code>
+</pre>
+
+<p>
+    Agora chegamos em uma parte bem complicado do código.
+</p>
+
+<pre>
+    <code>
+// acessando a váriavel formulário(que é a váriavel que faz referência ao formulário que coloquei em index.hbs) existe uma função que se chama 
+// addEventListener, traduzindo fica "adicionar ouvinte de evento", isso significa que vou adicionar uma função que vai esperar por um certo evento ocorre 
+// e quando esse evento ocorrer, essa função será executada.
+// o evento que essa função que estou passando vai escutar é o submit, que é quando eu clico no botão do tipo submit em um formulário.
+// essa função addEventListener recebe como segundo parâmetro uma função, o primeiro parâmetro é o nome do event que a função que estou passando vai ouvir.
+// recomendo ver esses dois link continuar, <a target="_blank" href="/FuncoesAnonimas">Função anônima</a> e <a target="_blank" href="https://developers.google.com/web/fundamentals/primers/promises?hl=pt-br">Promises</a>
+formulario.addEventListener("submit", (event) => {
+    // essa função, preventDefault(), previne que a paginá seja recarregada quando o evento submit for executado.
+    event.preventDefault();
+    // crio uma váriavel do tipo FormData, que permite tirar as informações de um formulário de forma mais fácil.
+    let dadosFormulario = new FormData(formulario);
+    // crio um objeto javascript.
+    // um objeto javascript, é basicamente uma váriavel com váriaveis dentro delas.
+    // essa váriavel, tem 3 váriaveis dentro: pensamento, cientistaFavorito e formula.
+    // na hora de declarar a váriaveis dentro de um objeto javascript, eu escreve assim:
+    // nomeVariavel : ValorDela
+    // Exemplo:
+    // pensamento : "Estou pensando"
+    let data = {
+        // criando uma váriavel chamado pensamento e pegando o valor do campo 'pensamento' do formulário
+        pensamento : dadosFormulario.get('pensamento'),
+        // criando uma váriavel chamado cientistaFavorito e pegando o valor do campo 'cientistaFavorito' do formulário, 
+        // mas antes verificio se o valor do campo 'cientistaFavorito' é em branco, pois se estiver, mando a informação 'Sem Cientista Favorito(a) Hoje'
+        cientistaFavorito : dadosFormulario.get('cientistaFavorito') == '' ? 'Sem Cientista Favorito(a) Hoje' : dadosFormulario.get('cientistaFavorito'),
+        // criando uma váriavel chamado formula e pegando o valor do campo 'formula' do formulário, 
+        // mas antes verificio se o valor do campo 'formula' é em branco, pois se estiver, mando a informação 'Sem Fórmula Favorito(a) Hoje'
+        formula : dadosFormulario.get('formula') == '' ? 'Sem Fórmula Favorita Hoje' : dadosFormulario.get('formula')
+    };
+
+    // deixo o gif carregando visível
+    Visivel(gifCarregando);
+    // deixo o formulário invisível
+    Invisivel(formulario);
+
+    // executo a função fetch, que serve para eu fazer pedidos para um servidor.
+    // como padrão, ela vem como pedido GET, que é para pegar informações de um servidor,
+    // nesse caso estou passando um objeto javascript como segundo parâmetro e nesse objeto, existe a váriavel method, que o valor dela é POST, informando
+    // que estou fazendo um pedido POST para o servidor.
+    // Como primeiro parâmetro, eu sempre passo o caminho http que leva ate o servidor, salvei esse caminho na váriavel path.
+    // Essa função retorna uma promise
+    fetch(path, {
+        method: 'POST',
+        // passo como corpo do meu pedido, a varíavel data que contem as informações que peguei do formulário
+        // e mando elas para o servidor, para poderem ser inseridas no servidor como um novo pensamento
+        body: JSON.stringify(data),
+        headers: {
+            'content-type': 'application/json'
+        }
+    // então se não der nenhum erro, eu tenho a resposta do servidor
+    }).then(resposta => { 
+        // converto essa resposta para o formato JSON
+        return resposta.json();
+    }).then(respostaInJson => {
+        // deixo o gifCarregando invisível
+        Invisivel(gifCarregando);
+        // deixo o formulário visível
+        Visivel(formulario);
+        // reseto o formulário, para sair as informações que preenchi nele.
+        formulario.reset();
+        // E carrego os pensamentos na tela.
+        CarregarPensamentos();
+    });
+}); 
+    </code>
+</pre>
+
+<pre>
+    <code>
+
+function Visivel(element)
+{
+    // deixa o elemento html visível na tela.
+    element.style.display = '';
+}
+
+function Invisivel(element)
+{
+    // deixa o elemento html invisível na tela.
+    element.style.display = 'none';
+}
+
+function CarregarPensamentos()
+{
+    // função fetch com apenas um único parâmetro, ou seja,
+    // estou fazendo um pedido do Tipo GET para pega todos os Pensamentos que estão no banco de dados do servidor.
+    fetch(path)
+        .then(resposta => { 
+            // converto a resposta para o formato JSON
+            return resposta.json();
+        })
+        .then(pensamentos => {
+            // apaga todos os elementos que estiver dentro da divisão 
+            divisaoPensamentos.innerHTML = '';
+            // recebe uma lista de objetos javascript, cada objeto é um pensamento, com a informação de qual usuário ele é, do texto, do cientista 
+            // e da formula 
+            // numa váriavel que é uma lista, existe uma função chamada forEach, que recebe uma função como parâmetro e essa função será executada 
+            // uma vez para cada elemento da lista,
+            pensamentos.forEach((thought) => {
+                // ou seja, o parâmetro dessa função, a variavel thought(pensamento em inglês) é um objeto dessa da lista.
+                // se a lista tiver, 10 objetos, então essa função será executada 10 vezes e cada vez, a váriavel thought vai ter o valor de um certo 
+                // objeto.
+                
+                // criando um elemento html do tipo div, que é uma divisão
+                let div = document.createElement('div');
+                // criando um elemento html do tipo h3, que é uma titulo, mas menor
+                let header = document.createElement('h3');
+                // textContext é como se fosse um innerHTML, mas textContent é mais recomendado quando eu quiser
+                // inserir texto a um elemento html
+                // estou inserindo a váriavel username(nome de usuário) do objeto thought
+                header.textContent = thought.username;
+                // criando dois elementos html do tipo p, que é o paragráfo.
+                let pensamento = document.createElement('p');
+                let date = document.createElement('p');
+                // o texto do primeiro paragráfo vai ser a váriavel texto do objeto thought
+                pensamento.textContent = thought.texto;
+                // o texto do primeiro paragráfo vai ser a váriavel datathought(que é a data que o pensamento foi criado) do objeto thought
+                date.textContent = thought.datathought;
+                // criando duas váriaveis, que vão ser usadas para criar dois paragráfos, caso as váriaveis cientistaFavorito e formula do 
+                // do objeto thought não tiverem como valor um texto em branco.
+                let cientista, formula;
+                // colocando os elementos header, pensamento e date como filhos do elemento divisão que criei mais cedo.
+                div.appendChild(header);
+                div.appendChild(pensamento);
+                div.appendChild(date);
+                // verificando se o cientistaFavorito não tem o texto em branco
+                // se não tiver, crio um elemento do tipo parágrafo, atribuo o texto do parágrafo com o valor do cientistaFavorito
+                if(thought.cientistaFavorito != '')
+                {
+                    cientista = document.createElement('p');
+                    cientista.textContent = thought.cientistaFavorito;
+                    div.appendChild(cientista);
+                }
+                // verificando se a formula não tem o texto em branco
+                // se não tiver, crio um elemento do tipo parágrafo, atribuo o texto do parágrafo com o valor da formula
+                if(thought.formula != '')
+                {
+                    formula = document.createElement('p');
+                    formula.textContent = thought.formula;
+                    div.appendChild(formula);
+                }
+                // adicionando a divisão que eu criei, como filha da divisão que coloquei lá em index.hbs
+                divisaoPensamentos.appendChild(div);
+            });
+            // No final, essa função vai passar por cada pensamento na lista de pensamentos que tirou da tabela e criar uma divisão de elementos, contendo as 
+            // informações dos pensamentos
+
+            // deixando o gif invisível
+            NotVisible(gifCarregando);
+            // deixando o formulario visível
+            Visible(formulario);
+        })
+        // caso tiver um erro ao tentar pegar os pensamentos do servidor, mostrar o erro no console.
+        .catch(error => console.log(error));
+}
+    </code>
+</pre>
+
+    <p>
+        Esse é todo o código necessário que vai precisar está na parte do cliente, agora iremos continuar na parte do servidor.
+    </p>
+
+    <h1 class="title2"> Registrar uma conta e Logar em uma conta </h1>
+
+    <p>
+        Em Routers, crie uma pasta chamada users e nela, crie os seguintes arquivos: login.js e signup.js. Em Views, crie também uma pasta 
+        chamada users e dois arquivos: login.hbs e signup.hbs.
+    </p>
+
+    <p> Em app.js, coloque depois de app.use('/', indexRouter) : </p>
+
+<pre>
+    <code>
+app.use('/users/login', require('./routes/users/login'));
+app.use('/users/signup', require('./routes/users/signup'));
+    </code>
+</pre>
+
+    <p> Em login.js coloque: </p>
+
+<pre>
+    <code>
+// importando o modulo express
+var express = require('express');
+// criando uma váriavel do tipo Router(que significa roteador, que serve para gerenciar os pedidos e respostas do meu servidor nesse caminho)
+var router = express.Router();
+
+// criando um middleware para quando o servidor receber um pedido do tipo get nesse caminho, eu roda essa função anônima
+// e rendenrizar 'users/login', que é o login.hbs que criei anteriormente
+router.get('/', function(req, res, next) {
+  res.render('users/login');
+});
+
+// exportando a váriavel router para no app.js poder acessá-la
+module.exports = router;
+    </code>
+</pre>
+
+    <p> Em signup.js coloque: </p>
+
+    <pre>
+        <code>
+// importando o modulo express
+var express = require('express');
+// criando uma váriavel do tipo Router(que significa roteador, que serve para gerenciar os pedidos e respostas do meu servidor nesse caminho)
+var router = express.Router();
+
+// criando um middleware para quando o servidor receber um pedido do tipo get nesse caminho, eu roda essa função anônima
+// e rendenrizar 'users/signup', que é o signup.hbs que criei anteriormente
+router.get('/', function(req, res, next) {
+  res.render('users/signup');
+});
+
+// exportando a váriavel router para no app.js poder acessá-la
+module.exports = router;
+        </code>
+    </pre>
+
+    <p>
+        Em signup.hbs e login.hbs, vamos criar o mesmo formulário, só que com nomes diferentes.
+        Então, em signup.hbs coloque:
+    </p>
+
+    <pre>
+        <code>
+&lt;div class="container">
+    // esse formulário, não vou precisar de um script por trás, ele quando for submitido, fará um pedido do tipo 
+    // POST ao servidor no caminho /users/signup
+    &lt;form class="form" method="POST" action="/users/signup">
+        &lt;h1> Cadastrar &lt;/h1>
+        &lt;div class="form-group">
+            &lt;label for="username"> Username &lt;/label>
+            &lt;input type="text" class="form-control" id="username" name="username">
+        &lt;/div>
+        &lt;div class="form-group">
+            &lt;label for="password"> Password &lt;/label>
+            &lt;input type="password" class="form-control" id="password" name="password">
+        &lt;/div>
+        &lt;button type="submit" class="btn btn-info">
+            Sign Up
+        &lt;/button>
+    &lt;/form>
+    &lt;br>
+    // váriavel error que poderá ser mandado junto com esse arquivo, para caso houver algum error.
+    &lt;p>&#123{error}}&lt;/p>
+&lt;/div>
+        </code>
+    </pre>
+
+    <p>
+        E em login.hbs coloque:
+    </p>
+
+    <pre>
+        <code>
+&lt;div class="container">
+    // esse formulário, não vou precisar de um script por trás, ele quando for submitido, fará um pedido do tipo 
+    // POST ao servidor no caminho /users/login
+    &lt;form class="form" method="POST" action="/users/login">
+        &lt;h1> Login &lt;/h1>
+        &lt;div class="form-group">
+            &lt;label for="username"> Username &lt;/label>
+            &lt;input type="text" class="form-control" id="username" name="username">
+        &lt;/div>
+        &lt;div class="form-group">
+            &lt;label for="password"> Password &lt;/label>
+            &lt;input type="password" class="form-control" id="password" name="password">
+        &lt;/div>
+        &lt;button type="submit" class="btn btn-info">
+            Login
+        &lt;/button>
+    &lt;/form>
+    &lt;br>
+    // "botão" que leva para /users/signup quem o clicar, server para quem ainda não cadastrou no site.
+    &lt;a href="/users/signup" class="btn btn-info"> signup&lt;/a>
+    // váriavel error que poderá ser mandado junto com esse arquivo, para caso houver algum error.
+    &lt;p>&#123{error}}&lt;/p>
+&lt;/div>
+        </code>
+    </pre>
+
+    <p> Em signup.js, na parte de renderizar(res.render) coloque da seguinte formar.</p>
+
+    <pre>
+        <code>
+res.render('users/signup', {error: ""});
+        </code>
+    </pre>
+
+    <p> Para ser enviado um objeto javascript com uma váriavel chamado error e que tem como valor um texto em branco.</p>
+
+    <p>
+        Insira em signup.js:
+    </p>
+
+<pre>
+    <code>
+// colocando um middleware que vai ser executado quando acessarem esse caminho (localhost:5000/users/signup) usando um pedido POST,
+// E dentro desse middleware, que irei que fazer as validações de se a senha está correta, se o usuário está correto, se já não existe 
+// um usuário com esse nome(a mesma coisa pode ser feita para o nome caso quiser).
+// E caso seja válidado o username e a senha, será inserido o usuário no banco de dados.
+router.post('/', function(req, res, next) {
+    
+}); 
+    </code>
+</pre>
+
+    <p>
+        Vamos começar pela validação. Um módulo muito bom para fazer validação é <a href="https://www.npmjs.com/package/joi">Joi</a>, na linha de 
+        comando execute o comando: npm install joi --save, para instalar joi e salvar ela como um dependência em package.json.
+    </p>
+
+    <p>
+        Em signup.js coloque: .
+    </p>
+
+    <pre>
+        <code>
+// importando o módulo Joi
+let Joi = require('joi');
+
+// criando um objeto do tipo que vai servir para eu fazer a validação de objetos
+// nesse caso, um objeto que tenha duas váriaveis dentro, username e password.
+// e as duas tem que ser texto.
+// o tamanho de username é no minimo 5 e máximo 30
+// o tamanho de password é no minimo 10 e máximo 30
+let schemaSignup = Joi.object().keys({
+    username: Joi.string().trim().regex(/^[a-zA-Z0-9]{3,30}$/).min(5).max(30).required(),
+    password: Joi.string().trim().min(10).max(30).required()
+});
+        </code>
+    </pre>
+
+    <p>
+        Dentro do router.post('/'), coloque:
+    </p>
+
+    <pre>
+        <code>
+router.post('/', function(req, res, next) {
+    // crio uma váriavel que vai receber o resultado da valido do corpo do pedido usando como base o objeto schemaSignup
+    let valido = Joi.validate(req.body, schemaSignup);
+    // caso a propriedade error de valido for nula, a validação foi correta
+    if(valido.error == null)
+    {
+        
+    }
+    else
+    {
+        // caso contrário, a validação não foi correta e renderizo users/signup passando como valor da váriavel error, o erro 
+        res.render('users/signup', {error: valido.error});
+    }
+}); 
+        </code>
+    </pre>    
+
+    <p>
+        Já que foi válidado, temos que agora ir para o parte do banco de dados e o módulo que utilizaremos para comunicar com o banco de dados é
+        o mssql. O Professor Yoshi vai passar o módulo Tedious, mas ele é bem ruim, o mssql é bem mais simples e fácil de utilizar.
+        Na linha de comando faça o comando: npm install mssql --save.
+    </p>
+
+    <h1 class="title2"> Comunicando com o banco de dados </h1>
+
+    <p>
+        Vá ate a pasta database e acesse o arquivo db.js, escreva:
+    </p>
+
+    <pre>
+        <code>
+// importando o módulo mssql
+let mssql = require("mssql");
+
+// criando um objeto javascript que servir para fazer a conexão com o banco de dados.
+// Aqui coloque as informações do seu banco de dados.
+let config = {
+    // o seu usuário, que no nosso caso é bandtec
+    user: 'username',
+    // a senha que você usa para acessar o seu banco de dados
+    password: 'password',
+    // o link do servidor que você hospeda o seu banco de dados
+    server: 'server', 
+    // o nome do seu banco de dados 
+    database: 'database',
+    options: {
+        encrypt: true 
+    }
+}
+
+// esses dois comando, é vão ser executados no inicio para verificar se já existem a tabela Users e Pensamentos no seu banco 
+// e caso não exista, vai rodar o comando para criar as tabelas.
+mssql.connect(config).then(pool => {
+    return pool.request()
+    .query("IF NOT EXISTS (SELECT * FROM dbo.sysobjects where id = object_id(N'dbo.[Users]') and OBJECTPROPERTY(id, N'IsTable') = 1)" +
+"	BEGIN " +
+	" 	CREATE TABLE Users " +
+		"(" +
+        "id int primary key IDENTITY(1,1)," +
+        "username varchar(30), " +
+        "senha varchar(30) " +
+		")" +
+	"END" +
+"GO")
+}).then(result => {
+
+}).catch(err => {
+
+});
+
+mssql.close();
+
+
+mssql.connect(config).then(pool => {
+    return pool.request()
+    .query("IF NOT EXISTS (SELECT * FROM dbo.sysobjects where id = object_id(N'dbo.[Pensamentos]') and OBJECTPROPERTY(id, N'IsTable') = 1)" +
+"	BEGIN " +
+	" 	CREATE TABLE Pensamentos " +
+		"(" +
+        "id int primary key IDENTITY(1,1)," +
+        "userid int foreign key references Users(id), " +
+        "texto varchar(140), " +
+        "cientista varchar(140), " +
+        "formula varchar(30), " +
+        "datathought varchar(30) " +
+		")" +
+	"END" +
+"GO")
+}).then(result => {
+
+}).catch(err => {
+
+});
+
+mssql.close();
+
+// as funções que irei exportar para ter acesso.
+module.exports = {
+    // para achar um usuário utilizando o username
+    FindUser: (username) => {
+        return mssql.connect(config).then(pool => {
+            return pool.request()
+            .query(`select * from Users where username = '${username}'`)
+        }).then(result => {
+            mssql.close();
+            return result;
+        });
+        
+    },
+    // para achar um usuário utilizando o id
+    FindUserId : (id) => {
+        return mssql.connect(config).then(pool => {
+            return pool.request()
+            .query(`select * from Users where id = '${id}'`)
+        }).then(result => {
+            mssql.close();
+            return result;
+        });
+    },
+    // inserir um usuário
+    InsertUser : (user) => {
+        return mssql.connect(config).then(pool => {
+            return pool.request()
+            .query(`insert into Users values('${user.username}','${user.password}')`)
+        }).then(result => {
+            mssql.close();
+            return result;
+        });
+    },
+    // selecionar todos os usuários
+    SelectAllUsers: () => {
+        return mssql.connect(config).then(pool => {
+            return pool.request()
+            .query("select * from Users");
+        }).then(result => {
+            mssql.close();
+            return result.recordset;
+        });
+    },
+    // selecionar todos os usuários e pegar apenas as informações de id deles.
+    SelectAllUsersID : () => {
+        return mssql.connect(config).then(pool => {
+            return pool.request()
+            .query("select id from Users");
+        }).then(result => {
+            mssql.close();
+            return result;
+        });
+    },
+    // inserir um pensamento
+    InsertThought : (thought) => {
+        return mssql.connect(config).then(pool => {
+            console.log(thought);
+            return pool.request()
+            .query(`insert into Pensamentos values(${thought.userid},'${thought.texto}','${thought.cientista}','${thought.formula}','${thought.data}')`);
+        }).then(result => {
+            mssql.close();
+            console.log(result);
+            return result;
+        });
+    },
+    // selecionar todos os pensamentos
+    SelectAllPensamentos: () => {
+        return mssql.connect(config).then(pool => {
+            return pool.request()
+            .query("SELECT username, texto, cientista, formula, datathought FROM Pensamentos INNER JOIN Users ON Pensamentos.userid = Users.id");
+        }).then(result => {
+            mssql.close();
+            console.log(result.recordset);
+            return result.recordset;
+        });
+    }   
+}
+        </code>
+    </pre>
+
+    <h1 class="title2">Continuando registro e login</h1>
+
+    <p>
+        Agora que temos tudo que precisamos para comunicar com o banco de dados, vamos inserir o seguinte código em signup.js: 
+    </p>
+
+    <pre>
+        <code>
+// importando o script que criei na pasta database
+let db = require('../../database/db');
+
+router.post('/', function(req, res, next) {
+    let valido = Joi.validate(req.body, schemaSignup);
+    if(valido.error == null)
+    {
+        // utilizando a função FindUser que criei
+        db.FindUser(req.body.username)
+            .then((user) => {
+                // tendo como retorno o usuário que achei
+                // verifico se não existe usuário com esse nome
+                if(user.recordset.length == 0)
+                {
+                    // caso não tiver, insiro o usuário no banco de dados.
+                    // é ideal não inserir a senha normal, é bom encriptar ela antes,
+                    // mas o módulo que utilizo é complicado de instalar, então não daria para instalar ele no momento.
+                    return db.InsertUser({ username: req.body.username, password : req.body.password });
+                }
+                else
+                {
+                    // caso tiver, renderizo users/signup e envio a váriavel error com o texto "Já tem um usuário com esse username"
+                    res.render('users/signup', {error : "Já tem um usuário com esse username"});    
+                }
+            })
+            .then((user) => {
+                // aqui vou colocar depois a parte de cookies, para permanecer logado.
+                // mas por enquanto, ele vai apenas ser redirecionado para o inicio do site
+                res.redirect('/');
+            })
+            .catch(err => {
+                res.render('user/signup', {error : err});    
+            });
+    }
+    else
+    {
+        res.render('users/signup', {error: valido.error});
+    }
+}); 
+        </code>
+    </pre>
+
+    <p>
+        Agora vamos fazer a mesma coisa só que no login.js. escreva:
+    </p>
+
+    <pre>
+        <code>
+let express = require('express');
+let router = express.Router();
+// importando o módulo joi
+let Joi = require('joi');
+
+// criando o objeto que vai servir para validação do login
+let schemaLogin = Joi.object().keys({
+    username: Joi.string().trim().regex(/^[a-zA-Z0-9]{3,30}$/).min(5).max(30).required(),
+    password: Joi.string().trim().min(10).max(30).required()
+});
+
+// importando o script que criei no arquivo db.js
+let db = require('../../database/db');
+
+router.get('/', function(req, res, next) {
+  res.render('users/login', {error: ""});
+});
+
+// criando um middleware que vai ser ativando quando acessarem localhost:5000/users/login
+router.post('/', function(req, res, next) {
+    // validando o corpo do pedido.
+    let valido = Joi.validate(req.body, schemaLogin);
+    // se não tiver erro, quer dizer que a validação ocorreu tudo bem
+    if(valido.error == null)
+    {
+        // tento achar um usuário com esse nome
+        db.FindUser(req.body.username)
+            .then((user) => {
+                // se tiver um usuário existente, prosseguir 
+                if(user.recordset.length == 1)
+                {
+                    // verificar se tem as senhas batem
+                    if(req.body.password == user.recordset[0].senha)
+                    {
+                        // se tiver, redirecionar para a página inicial 
+                        // aqui também irei colocar os cookeis para permanecer logado
+                        res.redirect('/');
+                    }
+                    else
+                    {
+                        res.render('users/login', {error : "Informações incorretas"});    
+                    }
+                }
+                else
+                {
+                    // se não tiver, renderizar informando o que as informações estão incorretas
+                    res.render('users/login', {error : "Informações incorretas"});    
+                }
+            })
+            .catch(err => {
+                res.render('users/login', {error : err});    
+            });
+    }
+    else
+    {
+        // se teve erro, a validação não ocorreu e 
+        // renderizo users/login mandando o erro que ocorreu
+        res.render('users/login', {error: valido.error});
+    }
+}); 
+
+module.exports = router;
+
+        </code>
+    </pre>
+
+    <p>
+        Agora conseguimos logar e cadastrar, já que conseguimos logar e cadastrar, devemos também permanecer logados e para isso precisamos criar cookies.
+        Vamos instalar três módulos: express-session, express-validator e session-file-store.
+    </p>
+
+    <p>
+        Em app.js escreva:
+    </p>
+
+<pre>
+    <code>
+// importando o módulo express-session
+let session = require('express-session');
+// importando o módulo express-validator
+let expressValidator = require('express-validator');
+// importando o módulo session-file-store
+let FileStore = require('session-file-store')(session);
+
+// criando um middleware para toda vez que tiver numa nova sessão de um navegador novo, salvar uma sessão.
+app.use(session({
+    // esse secret é bom deixar guardado como uma váriavel do sistema.
+    // mas você pode deixar qualquer coisa aqui
+  secret: 'my express secret',
+  saveUninitialized: true,
+  resave: true,
+  store: new FileStore()
+}));
+// criando um middleware para validação
+app.use(expressValidator());
+
+    </code>
+</pre>
+
+    <p>
+        Agora, em todo pedido feito no meu servidor, vai ter uma váriavel chamada session, que contem as informações da sessão atual.
+        E para eu continuar logado, adiciono um campo chamado user a essa sessão, para eu verificar se o user está nulo ou não,
+        pq se tiver, não tem ninguém logado nesse navegador e tem certos lugares, que pessoas não logadas não podem entrar, como a página inicial onde 
+        eu posso enviar os pensamentos. Só que ainda isso não acontece, iremos adicionar isso agora, vá em index.js. Também devemos adicionar as coisas que já 
+        deveriamos ter adicionados anteriormente.
+    </p>
+
+<pre>
+    <code>
+let express = require('express');
+let router = express.Router();
+
+// importando o script que criei para comunicar com o banco
+let db = require('../database/db');
+// importando o módulo joi, que serve para fazer validação
+let Joi = require('joi');
+// criando um objeto para validação de pensamentos
+let schemaPensamentos = Joi.object().keys({
+    pensamento: Joi.string().min(3).max(140).required(),
+    cientistaFavorito: Joi.string().min(0).max(30),
+    formula: Joi.string().min(0).max(30)
+});
+
+// criando um router no caminho localhost:5000 para quando tiver pedidos GET
+router.get('/', (req, res, next) => {
+  // verifico se exister um user logado
+  if(req.session.user)
+  {
+    // se tiver, renderizo, passando a informação do user que está logado
+    res.render('index', req.session.user);
+  }
+  else
+  {
+    // se não tiver, redireciono para /users/login
+    res.redirect('/users/login');
+  }
+});
+
+// criando um router no caminho localhost:5000/Pensar para quando tiver pedidos GET
+router.get('/Pensar', (req, res) => {
+  // pegando todos os pensamentos do banco
+  db.SelectAllPensamentos()
+    .then((thoughts) => {
+      // retornando como resposta do pedido os pensamentos que peguei.
+      res.json(thoughts);
+    })
+    .catch(err => console.log(err));
+});
+
+// criando um router no caminho localhost:5000/Pensar para quando tiver pedidos POST
+router.post('/Pensar', (req, res) => {
+  // fazendo a validação do pensamento enviado junto ao corpo do pedido
+  let valido = Joi.validate(req.body, schemaPensamentos);
+  // caso a validação não tiver erro, prosseguir.
+  if(valido.error == null)
+  {
+    // criando um objeto do tipo date
+      let date = new Date();
+      // inserindo um pensamento no banco de dados.
+      // enviando como parametro um objeto com todas informações necessárias
+      db.InsertThought({
+          // enviando o id do usuário que está logado
+          userid : req.session.user.id,
+          texto : req.body.pensamento,
+          cientista : req.body.cientistaFavorito == 'Sem Cientista Favorito(a) Hoje' ? '' : req.body.cientistaFavorito,
+          formula : req.body.formula == 'Sem Fórmula Favorita Hoje' ? '' : req.body.formula,
+          // mandando a hora:minutos dia/mes/ano do pensamento.
+          data : date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + " " + date.getDay() +
+            "/" + date.getMonth() + "/" + date.getFullYear()
+        })
+        .then(thoughts => {
+          // manda como resposta o valor de erro nulo
+          res.json({error : null});
+        })
+        .catch((error) => console.log(error));
+  }
+  else
+  {
+    // caso não tiver sido válidado, retornar informando que teve um erro.
+    // não coloquei nada na parte do cliente.js para quando receber como resposta que houve um erro, mas se quiser colocar, pode coloca.
+    res.status(422);
+    res.json({
+       error: 'Algum erro ocorreu, inserir dados corretamente'
+    });
+  }
+});
+
+module.exports = router;
+    </code>
+</pre>
+
+    <p>
+        E agora em login.js
+    </p>
+
+<pre>
+    <code>
+router.get('/', function(req, res, next) {
+    // verificando se tem um usuário logado.
+    // se tiver redicionar para o inicio do site
+    if(req.session.user)
+        res.redirect('/');
+    else
+        res.render('users/login', {error: ""});
+});
+
+router.post('/', function(req, res, next) {
+    let valido = Joi.validate(req.body, schemaLogin);
+    if(valido.error == null)
+    {
+        db.FindUser(req.body.username)
+            .then((user) => {
+                if(user.recordset.length == 1)
+                {
+                    if(req.body.password == user.recordset[0].senha)
+                    {
+                        // colocando as informações do usuário que acabou de logar em req.session.user
+                        req.session.user = { id: user.recordset[0].id, username: user.recordset[0].username };
+                        res.redirect('/');
+                    }
+                    else
+                    {
+                        res.render('users/login', {error : "Informações incorretas"});    
+                    }
+                }
+                else
+                {
+                    res.render('users/login', {error : "Informações incorretas"});
+                }
+            })
+            .catch(err => {
+                res.render('users/login', {error : err});    
+            });
+    }
+    else
+    {
+        res.render('users/login', {error: valido.error});
+    }
+}); 
+    </code>
+</pre>
+
+    <p>
+        E em signup.js
+    </p>
+
+<pre>
+    <code>
+router.get('/', function(req, res, next) {
+    // verificando se tem um usuário logado,
+    // caso tiver um, redicionar ele para a pagina inicial do site.
+    if(req.session.user)
+        res.redirect('/');
+    else
+        res.render('users/signup', {error: ""});
+});
+
+router.post('/', function(req, res, next) {
+    let valido = Joi.validate(req.body, schemaSignup);
+    if(valido.error == null)
+    {
+        db.FindUser(req.body.username)
+            .then((user) => {
+                if(user.recordset.length == 0)
+                {
+                    return db.InsertUser({ username: req.body.username, password : req.body.password });
+                }
+                else
+                {
+                    res.render('users/signup', {error : "Já tem um usuário com esse username"});    
+                }
+            })
+            .then((user) => {
+                // consultando o usuário que acabou de cadastrar no banco
+                return db.FindUser(req.body.username);
+            })
+            .then((user) => {
+                // colocando as informações do usuário que acabou de se cadastrar em session
+                req.session.user = { id: user.recordset[0].id, username: user.recordset[0].username };
+                // e redirecionando ele para a pagina inicial do site.
+                res.redirect('/');
+            })
+            .catch(err => {
+                res.render('users/signup', {error : err});    
+            });
+    }
+    else
+    {
+        res.render('users/signup', {error: valido.error});
+    }
+}); 
+    </code>
+</pre>
+
+    <p>
+        Agora só colocar em index.hbs o botão para fazer logout.
+    </p>
+
+    <pre>
+        <code>
+    &lt;form id="formulario">
+        &lt;h1> Informe o seu pensamento científico &lt;/h1>
+        &lt;div class="form-group">
+            &lt;label for="pensamento"> Pensamento &lt;/label>
+            &lt;textarea type="text" class="form-control" id="pensamento" name="pensamento"> &lt;/textarea>
+        &lt;/div>
+        &lt;div class="form-group">
+            &lt;label for="cientistaFavorito"> Cientista Favorito &lt;/label>
+            &lt;input type="text" class="form-control" id="cientistaFavorito" name="cientistaFavorito">
+        &lt;/div>
+        &lt;div class="form-group">
+            &lt;label for="formula"> Formúla Favorita &lt;/label>
+            &lt;input type="text" class="form-control" id="formula" name="formula">
+        &lt;/div>
+        &lt;button type="submit" class="btn btn-info">
+            Pensar
+        &lt;/button>
+        &lt;a class="btn btn-info" href="/users/logout">Logout&lt;/a>
+    &lt;/form>
+        </code>
+    </pre>
+
+    <p>
+        Coloquei ele dentro do formulário, mas se quiser, pode colocar ele em outro canto.
+    </p>
+
+    <p>
+        E agora no em index.js, escreva: 
+    </p>
+
+<pre>
+    <code>
+router.get('/users/logout', (req, res, next) => {
+  // se tiver um user conectado
+    if(req.session.user)
+    {
+      // destruo a sessão
+      req.session.destroy();
+      // e rediciono para /users/login
+      redirect('/users/login');
+    }
+    else
+    {
+      // caso não tiver um user conectado, redireciono para /users/login
+      redirect('/users/login');
+    }
+});
+    </code>
+</pre>
+
+<p>
+    E com isso, terminamos. Pode testar e se tiver algum erro, só me chamar no whats.
+    Link o projeto no <a target="_blank" href="https://github.com/KhomDrake/Scientific-Thoughts/tree/final">github</a>.
+</p>
+
+
+</div>
