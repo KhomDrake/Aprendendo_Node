@@ -20,6 +20,8 @@
         escreva no que estiver usando exatamente o que eu escrevo no gitbash) e escreva npm init.
     </p>
 
+    <img src="/images/projetoExemplo/npmInit.png">
+
     <p> 
         npm init serve para você criar um package.json, que é um arquivo do Formato JSON que guarda as informações sobre o seu projeto. Ele vai fazer algumas perguntas para você criar um package.json e essas 
         perguntas são bem simples, como: Nome do projeto, versão do projeto(já que você pode fazer alterações depois no projeto e atualizar a versão para 1.1.0 e etc...), descrição, arquivo principal(recomendo
@@ -30,6 +32,8 @@
     <p>
         No final, é informado uma prévia de como vai ficar e caso esteja bom, só escrever yes. Após isso, é criado o arquivo.
     </p>
+
+    <img src="/images/projetoExemplo/npmInit2.png">
 
     <pre>
         <code>
@@ -70,6 +74,8 @@
         Em seguida, cria o arquivo app.js. E dentro dele escreva:
     </p>
 
+    <img src="/images/projetoExemplo/app.js1.png">
+
     <pre>
         <code>
 // console.log é tipo o document.write, só que o document.write só funciona quando o javascript está rodando no navegador.
@@ -84,6 +90,9 @@ console.log('asda');
     </pre>
 
     <p> Ao executar o arquivo escrevendo: node app.js, vai aparecer no console o texto </p>
+
+    <img src="/images/projetoExemplo/app.js2.png">
+    <img src="/images/projetoExemplo/app.js3.png">
 
     <p> 
         E caso eu queria alterar o texto e executar novamente, só fazer a mesma coisa. Só que é frustante toda vez ter que escreve node app.js quando algo for alterado e 
@@ -108,13 +117,19 @@ console.log('asda');
         que nodemon não é importante quando o seu projeto já tiver completo, mas sim apenas no desenvolvimento dele.
     </p>
 
+    <img src="/images/projetoExemplo/nodemon.png">
+
     <p>
         Em seguida instale o módulo express(npm i express --save), que é um dos módulos mais utilizados para a criação de sites usando node.
     </p>
 
+    <img src="/images/projetoExemplo/installExpress.png">
+
     <p>
         E no arquivo app.js escreva:
     </p>
+
+    <img src="/images/projetoExemplo/app.js5.png">
 
     <pre>
         <code>
@@ -138,9 +153,14 @@ app.listen(5000);
         </code>
     </pre>
 
+
+
     <p>
         Abra o navegador e escreva: localhost:5000. E pronto, criei meu servidor.
     </p>
+
+    <img src="/images/projetoExemplo/localhost1.png">
+
 
     <h1 class="title2"> Criando o site </h1>
 
@@ -232,6 +252,9 @@ app.get('/', function(req, res)
         Se você acessar localhost:5000 aparecerá isso:
     </p>
 
+    <img src="/images/projetoExemplo/localhost2.png">
+
+
     <p> Nesse send posso mandar html </p>
 
     <pre>
@@ -248,6 +271,8 @@ app.get('/', function(req, res)
 app.listen(5000);
         </code>
     </pre>
+
+    <img src="/images/projetoExemplo/localhost3.png">
 
     <p> 
         Mas não é desse forma que mandamos html como resposta, usamos views. Views são os arquivos que vão ser renderizados para o cliente, normalmente não é html 
@@ -302,6 +327,8 @@ app.set('view engine', 'hbs');
         </code>
     </pre>
 
+    <img src="/images/projetoExemplo/app.js13.png">
+
     <p>
         E crie a pasta views e dentro dela um arquivo chamado index.hbs(ou index.ejs).
     </p>
@@ -310,17 +337,19 @@ app.set('view engine', 'hbs');
         Dentro escreva um html, pode ser esse aqui:
     </p>
 
+    <img src="/images/projetoExemplo/app.js15.png">
+
     <pre>
         <code>
-!DOCTYPE html>
-html lang="en">
-head>
-    title>Document/title>
-/head>
-body>
-    h1> Teste /h1>     
-/body>
-/html>
+&lt;!DOCTYPE html>
+&lt;html lang="en">
+&lt;head>
+    &lt;title>Document&lt;/title>
+&lt;/head>
+&lt;body>
+    &lt;h1> Teste &lt;/h1>     
+&lt;/body>
+&lt;/html>
         </code>
     </pre>
 
@@ -346,6 +375,8 @@ app.get('/', function(req, res)
     <p>
         Agora acesse localhost:5000:
     </p>
+
+    <img src="/images/projetoExemplo/localhost5.png">
 
     <p>
         Crie um novo arquivo na pasta views, chamado login.hbs
@@ -373,43 +404,45 @@ app.get('/login', function(req, res)
 
     <pre>
         <code>
-!DOCTYPE html>
-html>
-head>
-    title>Login/title>
+&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+    &lt;title>Login&lt;/title>
     // importando a bootstrap, para não ficar tão feio assim
-    link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-/head>
-body>
+    &lt;link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+&lt;/head>
+&lt;body>
     // criando um formulário
     // que terá sua action no /login
     // e o method vai ser post
     // Essa action(ação) é para qual no meu servidor que ele o formulário vai enviar as informações quando for submetido.
     // E o method(metodo) é qual tipo de pedido ele vai fazer quando enviar as informações
-    form action="/login" method="post">
-        h1> Login /h1>
-        div class="form-group">
-            label for="username"> usuário /label>
+    &lt;form action="/login" method="post">
+        &lt;h1> Login &lt;/h1>
+        &lt;div class="form-group">
+            &lt;label for="username"> usuário &lt;/label>
             // input onde o usuário vai inserir o nome do usuário
             // o que eu colocar no campo name="" é nome que a informação desse input vai ter quando for enviada para o meu servidor.
-            input type="text" class="form-control" name="usuario">
-        /div>
-        div class="form-group">
-            label for="password"> senha /label>
+            &lt;input type="text" class="form-control" name="usuario">
+        &lt;/div>
+        &lt;div class="form-group">
+            &lt;label for="password"> senha &lt;/label>
             // input onde o usuário vai inserir a senha
             // o que eu colocar no campo name="" é nome que a informação desse input vai ter quando for enviada para o meu servidor.
-            input type="password" class="form-control" name="senha">
-        /div>
+            &lt;input type="password" class="form-control" name="senha">
+        &lt;/div>
         // botão do tipo submit(enviar/submeter), ou seja, quando esse botão for apertado, ele vai fazer um pedido do tipo post
         // que vai conter no seu corpo as informações do formulário. O pedido vai ser para o caminho especificado na action
-        button type="submit" class="btn btn-info">
+        &lt;button type="submit" class="btn btn-info">
             Login
-        /button>      
-    /form>
-/body>
-/html>
+        &lt;/button>      
+    &lt;/form>
+&lt;/body>
+&lt;/html>
         </code>
     </pre>
+
+    <img src="/images/projetoExemplo/login1.png">
 
     <p>
         Agora acesse localhost:5000/login, coloque dados nos dois inputs e aperte no botão.
@@ -419,6 +452,10 @@ body>
         Ele vai dar o erro "Cannot POST /login" e ele da esse erro porque no app.js, eu apenas informei o que meu servidor deve fazer quando receber um pedido 
         GET no caminho /login, não falei o que ele deve fazer quando receber um pedido POST. Escreva no app.js:
     </p>
+
+    <img src="/images/projetoExemplo/login2.png">
+    <img src="/images/projetoExemplo/login3.png">
+
 
     <pre>
         <code>
@@ -436,6 +473,9 @@ app.post('/login', function(req, res)
         Agora, se você acessar localhost:5000/login, colocar os dados e apertar no botão, será mostrado a pagina de login de novo para você.
     </p>
 
+    <img src="/images/projetoExemplo/login1.png">
+
+
     <p>
         Falei antes que no corpo do pedido que o formulário faz, vai as informações do formulário, mas como eu tenho acesso as essas informações ?
         Através da variavel req.body. No arquivo app.js altere:
@@ -452,6 +492,8 @@ app.post('/login', function(req, res)
 });
         </code>
     </pre>
+
+        <img src="/images/projetoExemplo/login4.png">
 
     <p>
         Se você acessar localhost:5000/login, colocar os dados e apertar no botão, será mostrado uma página em branco para você. Cade a informação do corpo do pedido ?
@@ -476,7 +518,7 @@ app.post('/login', function(req, res)
 });
         </code>
     </pre>
-
+    
     <p>
         Um middleware que só vai ser executado quando alguém acessar o meu servidor no caminho /login através de um pedido do tipo POST.
         E agora iremos colocar dois middlewares que vão ser executados em qualquer pedido e como fazemos isso ? No app.js insira:
@@ -502,37 +544,39 @@ app.use(express.urlencoded({extended: false}));
         Agora, se eu acessar localhost:5000, colocar as informações e apertar no botão para enviar as informações, terei como resposta as informações que eu mandei.
     </p>    
 
+    <img src="/images/projetoExemplo/login9.png">
+
     <p>
         Agora, se eu criar um arquivo chamado signup.hbs e inserir algo parecido com o que tem login.hbs
     </p>
 
     <pre>
         <code>
-!DOCTYPE html>
-html>
-head>
-    title>Cadastrar/title>
-    link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-/head>
-body>
+&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+    &lt;title>Cadastrar&lt;/title>
+    &lt;link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+&lt;/head>
+&lt;body>
     // alterei a action, que essa informação vai ser enviada para /signup
     // E alguns textos e já posso utilizar isso para cadastro também
-    form action="/signup" method="post">
-        h1> Login /h1>
-        div class="form-group">
-            label for="usuario"> usuário /label>
-            input type="text" class="form-control" name="usuario">
-        /div>
-        div class="form-group">
-            label for="senha"> senha /label>
-            input type="password" class="form-control" name="senha">
-        /div>
-        button type="submit" class="btn btn-info">
+    &lt;form action="/signup" method="post">
+        &lt;h1> Login &lt;/h1>
+        &lt;div class="form-group">
+            &lt;label for="usuario"> usuário &lt;/label>
+            &lt;input type="text" class="form-control" name="usuario">
+        &lt;/div>
+        &lt;div class="form-group">
+            &lt;label for="senha"> senha &lt;/label>
+            &lt;input type="password" class="form-control" name="senha">
+        &lt;/div>
+        &lt;button type="submit" class="btn btn-info">
             Cadastrar
-        /button>      
-    /form>
-/body>
-/html>
+        &lt;/button>      
+    &lt;/form>
+&lt;/body>
+&lt;/html>
         </code>
     </pre>
 
@@ -569,13 +613,17 @@ app.post('/signup', function(req, res)
         Crie uma pasta database e dentro dela crie um arquivo chamado db.js
     </p>
 
+    <img src="/images/projetoExemplo/db.js1.png">
+
     <p>
         Tem dois módulos para comunicar com o banco, veremos o mais fácil, o MSSQL.
     </p>
 
     <p>
-        Instale o MSSQL, execute no gitbash o comando npm install tedious --save
+        Instale o MSSQL, execute no gitbash o comando npm install mssql --save
     </p>
+
+    <img src="/images/projetoExemplo/installmssql.png">
 
     <p>
         No arquivo db.js, escreva:
@@ -602,14 +650,19 @@ let config = {
         </code>
     </pre>
 
+    <img src="/images/projetoExemplo/db.js3.png">
+
     <p>
         Acesse o azure:
     </p>
 
+        <img src="/images/projetoExemplo/azure1.png">
+        <img src="/images/projetoExemplo/azure2.png">
+
     <p>
         Lá no azure, escreva e execute:
     </p>
-
+            <img src="/images/projetoExemplo/azure3.png">
 <pre>
     <code>
 create table usuarioExemplo(
@@ -644,13 +697,20 @@ db.connect(config)
         </code>
     </pre>
 
+    <img src="/images/projetoExemplo/db.js4.png">
+
+
     <p>
         Execute apenas esse arquivo, escreva no gitbash: node database/db.js
     </p>
 
+    <img src="/images/projetoExemplo/dbConsole1.png">
+
     <p>
         No console apareceu isso:
     </p>
+
+    <img src="/images/projetoExemplo/dbConsole3.png">
 
     <p>
         Se ele tivesse encontrado algo, teria um array dos registros encontrados no recordset. Para testa isso, vou inserir no portal azure um usuario.
@@ -665,6 +725,8 @@ insert into usuarioExemplo values('vinicius', 'asadsa');
     <p>
         Agora irei executar novamente o node database/db.js
     </p>
+
+    <img src="/images/projetoExemplo/dbConsole4.png">
 
     <p>
         No db.js, copie e cole:
@@ -685,6 +747,8 @@ db.connect(config)
     <p>
         E execute novamente o node database/db.js
     </p>
+
+    <img src="/images/projetoExemplo/dbConsole5.png">
 
     <p>
         Deu o erro: "Global connection already exists. Call sql.close() first" ou traduzindo: "Já existe uma conexão global, executa sql.close() primeiro para 
@@ -971,6 +1035,8 @@ app.use('/signup', require('./routers/signup'));
         que acessar o caminho /login/login.
     </p>
 
+    <img src="/images/projetoExemplo/login9.png">
+
     <p>
         Então, tenho que tirar o '/login' que está no login.js e o '/signup' que está no signup.js, só deixar o '/'.
     </p>
@@ -1040,6 +1106,9 @@ router.post('/', function(req, res)
         Agora, iremos criar um arquivo na pasta Routers chamado dados.js e na pasta views um chamado grafico.hbs.
     </p>
 
+        <img src="/images/projetoExemplo/dados.js.png">
+        <img src="/images/projetoExemplo/graficohbs1.png">
+
     <p>
         E no app.js, vamos inserir: 
     </p>
@@ -1082,26 +1151,26 @@ module.exports = router;
 
     <pre>
         <code>
-!DOCTYPE html>
-html>
-head>
-    title>Grafico/title>
-/head>
-body>
+&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+    &lt;title>Grafico&lt;/title>
+&lt;/head>
+&lt;body>
     // importando as bibliotecas que vou utilizar para criar o grafico.
-    script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js">/script>
-	script src="http://www.chartjs.org/dist/2.7.1/Chart.js">/script>
-	script src="http://www.chartjs.org/samples/latest/utils.js">/script>
+    &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js">&lt;/script>
+	&lt;script src="http://www.chartjs.org/dist/2.7.1/Chart.js">&lt;/script>
+	&lt;script src="http://www.chartjs.org/samples/latest/utils.js">&lt;/script>
     // canvas onde vai ser desenhado o gráfico com apenas a informação da temperatura.
-    canvas id="graficoTemperatura">/canvas>
+    &lt;canvas id="graficoTemperatura">&lt;/canvas>
     // canvas onde vai ser desenhado o gráfico com apenas a informação da umidade.
-    canvas id="graficoUmidade">/canvas>
+    &lt;canvas id="graficoUmidade">&lt;/canvas>
 
     // esse grafico.js é um arquivo que vou criar para não deixar o código de criação do site exposto.
-    script src="/grafico.js">
-    /script>
-/body>
-/html>
+    &lt;script src="/grafico.js">
+    &lt;/script>
+&lt;/body>
+&lt;/html>
         </code>
     </pre>
 
@@ -1227,6 +1296,8 @@ let chartUmi = new Chart(contextUmi, configurationUmi);
         </code>
     </pre>
 
+    <img src="/images/projetoExemplo/grafico1.png">
+
     <p>
         Só que ele esta sem nenhum dado, então tenho que popular ele com dados. Vá no portal azure e execute o seguinte código:
     </p>
@@ -1328,6 +1399,8 @@ router.get('/dados', function (req, res) {
         Se você acessar /arduinos/dados, verá o resultado disso.
     </p>
 
+    <img src="/images/projetoExemplo/grafico2.png">
+
     <p>
         Agora, eu tenho que acessar esses dados no grafico.js para popular os graficos e como faz isso ? Insira no grafico.js
     </p>
@@ -1374,6 +1447,8 @@ fetch('/arduinos/dados')
     });
         </code>
     </pre>
+
+    <img src="/images/projetoExemplo/grafico3.png">
 
     <p>
         Agora eu populei o gráfico, mas tenho que fazer ele ser atualizado. Só que a consulta que eu faço no caminho '/arduinos/dados' eu pego todos as medicoes 
@@ -1470,6 +1545,8 @@ function PegarUltimaMedicao() {
         </code>
     </pre>
 
+    <img src="/images/projetoExemplo/grafico4.png">
+
     <p>
         Agora o gráfico atualiza.
     </p>
@@ -1478,6 +1555,10 @@ function PegarUltimaMedicao() {
 
     <p>
         Estou fazendo algumas mudanças no meu próprio projeto e quando finalizar essas mudanças, irei colocar como permanecer logado.
+    </p>
+
+    <p>
+        O código do projeto já completo(sem a parte de login por enquanto), está <a href="https://github.com/KhomDrake/ProjetoFaculdadeExemplo" target="_blank"> aqui </a>
     </p>
 
 </div>
