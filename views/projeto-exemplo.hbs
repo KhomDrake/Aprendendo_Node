@@ -1,0 +1,1483 @@
+<div class="container">
+
+    <h1 class="title"> Projeto do Semestre Exemplo </h1>
+
+    <p>
+        Vejo que muitas pessoas estão com duvidas sobre como fazer o projeto, sobre o gráfico, login, cadastro, conexão com o banco, views, etc... . Por ver 
+        tanta duvida, resolvi criar um projeto exemplo onde faço do Zero um projeto que seria basicamente o projeto do semestre(mas sem o front, não sou bom com isso) onde 
+        explico tudo desde o começo e você pode ir fazendo esse projeto exemplo e só depois trazer as coisas que você fez no seu pra cá ou pega coisa daqui e colocar lá, mas
+        o que eu espero conseguir é que você ao fazer isso, entendeu como funciona tudo.
+    </p>
+ 
+    <h1 class="title2"> Criando o servidor </h1>
+
+    <p>
+        Recomendo criar um repositório no Github para fazer o passo a passo que vou explicar, porque assim você pode ter uma versão sua do seu projeto do semestre.
+    </p>
+
+    <p>
+        Após clonar o repositório que criou, abra o GitBash(ou outra linha de comando, como o do Visual studio, o Prompt ou qualquer outro. Quando ver que eu falei "no gitbash", caso não esteja usando ele, 
+        escreva no que estiver usando exatamente o que eu escrevo no gitbash) e escreva npm init.
+    </p>
+
+    <p> 
+        npm init serve para você criar um package.json, que é um arquivo do Formato JSON que guarda as informações sobre o seu projeto. Ele vai fazer algumas perguntas para você criar um package.json e essas 
+        perguntas são bem simples, como: Nome do projeto, versão do projeto(já que você pode fazer alterações depois no projeto e atualizar a versão para 1.1.0 e etc...), descrição, arquivo principal(recomendo
+        colocar app.js já que enquanto fazia esse projeto também coloquei app.js), autor, licença, repositório git(caso você esteja criando um package.json em uma pasta onde tem o arquivo git, ele automaticamente
+        já coloca o repositório nesse campo). O resto não é tão importante e não é necessário preencher todos, alguns já vem com um valor padrão.   
+    </p>
+
+    <p>
+        No final, é informado uma prévia de como vai ficar e caso esteja bom, só escrever yes. Após isso, é criado o arquivo.
+    </p>
+
+    <pre>
+        <code>
+{
+    // nome
+  "name": "projetofaculdadeexemplo",
+  // versão
+  "version": "1.0.0",
+  // descrição
+  "description": "Projeto Teste",
+  // arquivo principal
+  "main": "app.js",
+  // atalho para execução do projeto
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  // repositório do projeto
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KhomDrake/ProjetoFaculdadeExemplo.git"
+  },
+  // autor
+  "author": "Vinicius Lucena Viana",
+  // licença
+  "license": "MIT",
+  // informações do git, como issues
+  "bugs": {
+    "url": "https://github.com/KhomDrake/ProjetoFaculdadeExemplo/issues"
+  },
+  // e a pagina onde esse projeto fica no git
+  "homepage": "https://github.com/KhomDrake/ProjetoFaculdadeExemplo#readme",
+}
+
+        </code>
+    </pre>
+
+    <p>
+        Em seguida, cria o arquivo app.js. E dentro dele escreva:
+    </p>
+
+    <pre>
+        <code>
+// console.log é tipo o document.write, só que o document.write só funciona quando o javascript está rodando no navegador.
+// O que não é o caso agora, para eu executar esse arquivo javascript usando node, eu escrevo: node nomearquivo, que nesse caso é app.js
+// O programa node que está na sua maquina, vai interpretar o código javascript e roda ele em c++, que é uma linguagem de programação que o meu computador consegue executar.
+// O javascript que normalmente vemos, é interpretado pelo navegador e é executado pelo navegador.
+// É o mesmo processo no sentido de haver interpretação, mas quando o javascript é convertido(ou interpretado) para c++, a execução ocorre bem mais rápida, já que c++ é uma 
+// linguagem de baixo nível(digamos que o processador consegue ler ela com uma maior facilidade)
+// document.write manda o texto para o navegador, console.log manda para o console, que é a linha de comando que você está executando esse arquivo.
+console.log('asda');
+        </code>
+    </pre>
+
+    <p> Ao executar o arquivo escrevendo: node app.js, vai aparecer no console o texto </p>
+
+    <p> 
+        E caso eu queria alterar o texto e executar novamente, só fazer a mesma coisa. Só que é frustante toda vez ter que escreve node app.js quando algo for alterado e 
+        seria melhor se existisse algo que rodasse o app.js no automatico. E realmente existe, é o módulo nodemon.
+    </p>
+
+    <p>
+        Módulos são códigos já prontos que eu posso utilizar na minha aplicação, existem milhares e cada um tem sua função especifica. Qualquer pessoa pode criar um módulo e onde os módulos ficam 
+        é no npm(que significa gerenciador de pacotes node), para mais informações <a href="/NPM" target="_blank">aqui</a>.
+    </p>
+
+    <p>
+        Para instalar um módulo, escreve no gitbash: npm i nomemodulo ou npm install nomemodulo. Todo módulo que você instalou e irá utilizar no seu projeto, é sempre bom colocar npm i nomemodulo --save, 
+        esse comando vai lá no seu package.json e adiciona um campo de depencias do seu projeto, colocando o nome desse projeto e a versão que você está baixando. Isso é muito bom, porque caso você envie
+        esse projeto pro git, os módulos baixados não estarão lá no git e quando você clonar, vai ter que baixar eles novamente, mas se estiver com gitbash(ou outra linha de comando) na pasta que clonou e 
+        escrever npm i, ele automaticamente procura no package.json todos os projetos que tá no campo de dependencia e baixa todos eles ao mesmo tempo, facilitando muito. Por isso é sempre importante colocar 
+        o --save no final.
+    </p>
+
+    <p>
+        No gitbash escreva: npm i nodemon --save-dev. Esse -dev é para informar que essa depencia é apenas de desenvolvimento e caso queria só colocar --save, não tem necessáriamente problema, mas saiba 
+        que nodemon não é importante quando o seu projeto já tiver completo, mas sim apenas no desenvolvimento dele.
+    </p>
+
+    <p>
+        Em seguida instale o módulo express(npm i express --save), que é um dos módulos mais utilizados para a criação de sites usando node.
+    </p>
+
+    <p>
+        E no arquivo app.js escreva:
+    </p>
+
+    <pre>
+        <code>
+// a função require é uma função exclusiva do node
+// ela serve para eu importar arquivos
+// Caso você ainda não percebeu, mas quando você baixou os módulos, foi criado uma pasta chamado node_modules e um arquivo chamado package-lock.json
+// node-modulos é onde fica os módulos baixados e package-lock.json é a informação das dependencias das suas dependencias.
+// Toda vez que eu escrevo algo dentro do require('') ele já procura na pasta node_modules
+// E caso queira importa um arquivo fora da pasta node_modules tenho que escrever require('./') para ele sair da pasta node_modules e em seguida colocaria o caminho para o arquivo que eu quero
+// veremos isso mais a frente.
+// Importo o módulo express
+let express = require('express');
+// Executo o código que eu importei do módulo express
+// Eu posso executar porque o que eu recebo é uma função quando to importando o módulo express
+// Em outros módulos, o que eu importo talvez seja uma váriavel ou um tipo de váriavel que o desenvolvedor criou
+// Quando eu executo eu recebo de volta uma variavel do tipo express que irei utilizar para criar um servidor local onde vai ficar o meu site.
+let app = express();
+// to acessando a função listen da variavel app que criei e to passando a porta onde o meu servidor vai ficar hospedado localmente na minha maquina.
+// Nesse caso, seria a porta 5000.
+app.listen(5000);
+        </code>
+    </pre>
+
+    <p>
+        Abra o navegador e escreva: localhost:5000. E pronto, criei meu servidor.
+    </p>
+
+    <h1 class="title2"> Criando o site </h1>
+
+    <p>
+        No arquivo app.js escreva(escreva antes do app.listen): 
+    </p>
+
+    <pre>
+        <code>
+app.get('/', function(req, res)
+{
+    res.send("asdads");
+});
+        </code>
+    </pre>
+
+    <p>
+        Antes de escrever o código, irei explicar outra coisa, como um site funciona.
+    </p>
+
+    <h1 class="title2"> Entendendo como funciona um servidor. </h1>
+
+    <p>
+        O servidor é um aplicativo que ouve por pedidos dos usuários e responde de acordo com o pedido. Uma ótima analogia para o funcionamento de um servidor 
+        é como funciona um restaurante. Em um restaurante, você faz o pedido, o garçom leva o pedido para 'processamento' na cozinha e quando é terminado o pedido, o garçom
+        trás para minha mesa a 'resposta' do meu pedido, que nesse caso é meu prato. Em um servidor na web, é essencialmente o mesmo processo. Quando acesso o link de um 
+        video no youtuber, eu estou fazendo um pedido para o servidor e ele está me mandando como resposta o vídeo.
+    </p>
+
+    <h1 class="title2"> O Famoso CRUD </h1>
+
+    <p> 
+        Existem quatros tipos de pedidos que posso fazer a um servidor e eles são: Get(pegar), Post(postar), Put(colocar) e Delete(deletar). 
+        Ou como também chamamos, Create(criar), Read(ler), Update(atualizar) e Delete(deletar), que é o famoso CRUD. Get é Read, Update é Put, Delete é Delete e Create é 
+        Post.
+    </p>
+
+    <img src="/images/Twitter2/CRUD.png">
+
+    <p> Get/Read: É a ação de ler dados do servidor, como acessar um artigo em um site ou assistir um vídeo no youtuber. </p>
+    <p> Post/Create: É a ação de inserir coisas novas no servidor, como criar uma conta no twitter ou enviar um vídeo no youtube. </p>
+    <p> Put/Update: É a ação de atualizar informações já existente no servidor, como muda o nome de usuário no Twitter ou alterar um comentário numa postagem do Face.  </p>
+    <p> Delete/Delete: É a ação de apagar informações do servidor, como excluir uma foto do Insta.</p>
+
+    <br>
+
+    <p> Nesse projeto iremos utilizar Express para aprender a gerenciar o que fazer em dois casos de pedido, GET e POST.</p>
+
+<h1 class="title">Continuando o site</h1>
+
+    <p> Agora irei explicar o código </p>
+
+    <pre>
+        <code>
+// a função get recebe dois paramêtros, um caminho e uma outra função para ser executada
+// Esse caminho, é o caminho que for acesso no meu servidor e a outra função é a função que vai ser executada quando acessarem esse caminho no meu servidor.
+// Como você deve ter percebido, o get é o GET do CRUD, ou seja, essa função que mando como paramêtro só vai ser executada quando acessarem meu servidor através de um pedido GET
+// e apenas no caminho '/'. Já que coloquei apenas '/', então é o caminho inicial do meu site.
+app.get('/', function(req, res)
+{
+    // essa função que passo como paramêtro, eu escrevi dessa forma: 
+    /*
+        function(req, res)
+        {
+
+        }
+    */
+    // Porque é uma função anonima, é como uma função normal, só não tem nome. Eu poderia criar uma função e passar ela como paramêtro, assim:
+    /*
+        function test(req, res)
+        {
+            res.send("asdads");
+        }
+        app.get('/', test);
+    */
+    // Colocamos apenas uma função anonima, para não ter que criar uma função.
+
+    // esses dois paramêtros(req e res) que vem nessa função
+    // req é o pedido e res a resposta.
+    // o req terá informação sobre o pedido feito e res serve para eu mandar resposta para esse pedido.
+    // então quando escrevo res.send("asdads");
+    // estou enviando (send significa enviar) como resposta o texto "asdads" quando acessarem meu servidor no caminho inicial.
+    res.send("asdads");
+});
+        </code>
+    </pre>
+
+    <p>
+        Se você acessar localhost:5000 aparecerá isso:
+    </p>
+
+    <p> Nesse send posso mandar html </p>
+
+    <pre>
+        <code>
+let express = require('express');
+let app = express();
+
+app.get('/', function(req, res)
+{
+    
+    res.send('&lt;h1>asdads&lt;/h1>');
+});
+
+app.listen(5000);
+        </code>
+    </pre>
+
+    <p> 
+        Mas não é desse forma que mandamos html como resposta, usamos views. Views são os arquivos que vão ser renderizados para o cliente, normalmente não é html 
+        e sim outros tipos de arquivos, como hbs e ejs. A maior diferença deles para o html, é que o hbs e ejs eu consigo utilizar javascript diretamente no html, sem 
+        precisar escrever a tag script, é algo limitado, mas é bastante útil. Irei utilizar hbs, mas mostrarei o código para ejs também.
+    </p>
+
+    <p>
+        Escreva os dois comandos no gitbash:
+    </p>
+
+    <pre>
+        <code>
+// para instalar o módulo hbs
+npm install hbs --save
+        </code>
+    </pre>
+    <pre>
+        <code>
+// para instalar o módulo ejs
+npm install ejs --save
+        </code>
+    </pre>
+
+    <p>
+        Também deve instalar o módulo path:
+    </p>
+
+    <pre>
+        <code>
+// para instalar o módulo path
+npm install path --save
+        </code>
+    </pre>
+
+    <p>
+        No arquivo app.js escreva:
+    </p>
+
+    <pre>
+        <code>
+// importando o módulo path
+let path = require('path');
+
+// set é uma função para eu configurar o meu servidor
+// estou configurando o caminho das views e informando que elas irão estar no caminho do meu diretorio(__dirname) + views
+app.set('views', path.join(__dirname, 'views'));
+// estou configurando a view que vou utilizar, que nesse caso seria ejs
+app.set('view engine', 'hbs');
+// caso fosse utilizar ejs, só precisaria trocar o hbs pro ejs
+// app.set('view engine', 'ejs');
+        </code>
+    </pre>
+
+    <p>
+        E crie a pasta views e dentro dela um arquivo chamado index.hbs(ou index.ejs).
+    </p>
+
+    <p>
+        Dentro escreva um html, pode ser esse aqui:
+    </p>
+
+    <pre>
+        <code>
+!DOCTYPE html>
+html lang="en">
+head>
+    title>Document/title>
+/head>
+body>
+    h1> Teste /h1>     
+/body>
+/html>
+        </code>
+    </pre>
+
+    <p>
+        E no app.js, apague o app.get('/') e escreva:
+    </p>
+
+<pre>
+    <code>
+// mesma coisa de antes
+app.get('/', function(req, res)
+{
+    // mas estou mandando como resposta agora a renderização do index.hbs
+    // só por eu escrever index ele já sabe que é o index.hbs que está na pasta views por causa dessa linha aqui anteriormente:
+    // app.set('views', path.join(__dirname, 'views')) que configura o caminho das minhas views
+    // Ou seja, o meu servidor já sabe que toda vez que eu manda um texto na função render ele deve procurar por esse caminho a partir do caminho 
+    // que coloquei antes, que é o caminho do meu diretório + views
+    res.render('index');
+});
+    </code>
+</pre>
+
+    <p>
+        Agora acesse localhost:5000:
+    </p>
+
+    <p>
+        Crie um novo arquivo na pasta views, chamado login.hbs
+    </p>
+
+    <p>
+        Adicione no arquvio app.js:
+    </p>
+
+    <pre>
+        <code>
+// quando acessarem o meu servidor no caminho /login através do pedido GET
+app.get('/login', function(req, res)
+{
+    // vou executar essa função anonima 
+    // e ela manda como resposta para o pedido feito a renderização do arquivo login.hbs, que está na pasta views
+    res.render('login');
+});
+        </code>
+    </pre>
+
+    <p>
+        No arquivo login.hbs, escreva:
+    </p>
+
+    <pre>
+        <code>
+!DOCTYPE html>
+html>
+head>
+    title>Login/title>
+    // importando a bootstrap, para não ficar tão feio assim
+    link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+/head>
+body>
+    // criando um formulário
+    // que terá sua action no /login
+    // e o method vai ser post
+    // Essa action(ação) é para qual no meu servidor que ele o formulário vai enviar as informações quando for submetido.
+    // E o method(metodo) é qual tipo de pedido ele vai fazer quando enviar as informações
+    form action="/login" method="post">
+        h1> Login /h1>
+        div class="form-group">
+            label for="username"> usuário /label>
+            // input onde o usuário vai inserir o nome do usuário
+            // o que eu colocar no campo name="" é nome que a informação desse input vai ter quando for enviada para o meu servidor.
+            input type="text" class="form-control" name="usuario">
+        /div>
+        div class="form-group">
+            label for="password"> senha /label>
+            // input onde o usuário vai inserir a senha
+            // o que eu colocar no campo name="" é nome que a informação desse input vai ter quando for enviada para o meu servidor.
+            input type="password" class="form-control" name="senha">
+        /div>
+        // botão do tipo submit(enviar/submeter), ou seja, quando esse botão for apertado, ele vai fazer um pedido do tipo post
+        // que vai conter no seu corpo as informações do formulário. O pedido vai ser para o caminho especificado na action
+        button type="submit" class="btn btn-info">
+            Login
+        /button>      
+    /form>
+/body>
+/html>
+        </code>
+    </pre>
+
+    <p>
+        Agora acesse localhost:5000/login, coloque dados nos dois inputs e aperte no botão.
+    </p>
+
+    <p>
+        Ele vai dar o erro "Cannot POST /login" e ele da esse erro porque no app.js, eu apenas informei o que meu servidor deve fazer quando receber um pedido 
+        GET no caminho /login, não falei o que ele deve fazer quando receber um pedido POST. Escreva no app.js:
+    </p>
+
+    <pre>
+        <code>
+// quando acessarem meu servidor no caminho /login através de um pedido post
+app.post('/login', function(req, res)
+{
+    // irei executar essa função e mandarei como resposta
+    // a renderização do login também
+    res.render("login");
+});
+        </code>
+    </pre>
+
+    <p>
+        Agora, se você acessar localhost:5000/login, colocar os dados e apertar no botão, será mostrado a pagina de login de novo para você.
+    </p>
+
+    <p>
+        Falei antes que no corpo do pedido que o formulário faz, vai as informações do formulário, mas como eu tenho acesso as essas informações ?
+        Através da variavel req.body. No arquivo app.js altere:
+    </p>
+
+    <pre>
+        <code>
+app.post('/login', function(req, res)
+{
+    // agora, em vez de manda uma renderização do login.hbs
+    // irei mandar uma informação do tipo json que vai conter a informação que vem no corpo do pedido.
+    // o corpo do pedido é o req.body
+    res.json(req.body);
+});
+        </code>
+    </pre>
+
+    <p>
+        Se você acessar localhost:5000/login, colocar os dados e apertar no botão, será mostrado uma página em branco para você. Cade a informação do corpo do pedido ?
+        Para que o servidor possa entender a informação que vem no corpo do pedido, eu preciso colocar dois middlewares.
+        E o que são middlewares ?
+    </p>
+
+    <h1 class="title2"> Middlewares </h1>
+
+    <p>
+        Middlewares são código que são executados nos pedidos que passam pelo meu servidor. Pense da seguinte forma, é como se os pedidos tivessem que passar por 
+        salas e nessas salas eles são tratados de alguma forma, coisas são feitas com eles, etc... . Nem todo pedido pedidos passa por todas as salas, tem salas que só 
+        vão cuidar de certos pedidos e de pedidos de certos tipos.
+        Já vimos algo desse tipo não é ? Sim, isso é um middleware:
+    </p>
+
+    <pre>
+        <code>
+app.post('/login', function(req, res)
+{
+    res.json(req.body);
+});
+        </code>
+    </pre>
+
+    <p>
+        Um middleware que só vai ser executado quando alguém acessar o meu servidor no caminho /login através de um pedido do tipo POST.
+        E agora iremos colocar dois middlewares que vão ser executados em qualquer pedido e como fazemos isso ? No app.js insira:
+    </p>
+
+    <pre>
+        <code>
+// para colocar um middleware eu utilizo a função 
+// se eu não passo uma informação do caminho, por exemplo app.use('/', express.json())
+// então todo pedido feito no meu servidor, vai 'passar por essa sala'
+// caso passe um caminho, apenas os pedidos feitos nesse caminho que passei que vão 'passar por essa sala'.
+// esse primeiro middleware é para que o meu servidor possa entender as informações que vem no corpo do pedido
+app.use(express.json());
+// e esse é para eu pegar as informações que vem na URL
+// https://www.google.com.br/search?q=asda&rlz=1C1CHZL_pt-BRBR749BR749&oq=asdas+&aqs=chrome..69i57j69i60l2j0l3.1838j0j7&sourceid=chrome&ie=UTF-8
+// como nesse caso, onde tem informações a partir de https://www.google.com.br/search?
+// q=asdas&rlz=1C1CHZL_pt-BRBR749BR749&oq=asdas+&aqs=chrome..69i57j69i60l2j0l3.1838j0j7&sourceid=chrome&ie=UTF-8
+app.use(express.urlencoded({extended: false}));
+        </code>
+    </pre>
+
+    <p>
+        Agora, se eu acessar localhost:5000, colocar as informações e apertar no botão para enviar as informações, terei como resposta as informações que eu mandei.
+    </p>    
+
+    <p>
+        Agora, se eu criar um arquivo chamado signup.hbs e inserir algo parecido com o que tem login.hbs
+    </p>
+
+    <pre>
+        <code>
+!DOCTYPE html>
+html>
+head>
+    title>Cadastrar/title>
+    link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+/head>
+body>
+    // alterei a action, que essa informação vai ser enviada para /signup
+    // E alguns textos e já posso utilizar isso para cadastro também
+    form action="/signup" method="post">
+        h1> Login /h1>
+        div class="form-group">
+            label for="usuario"> usuário /label>
+            input type="text" class="form-control" name="usuario">
+        /div>
+        div class="form-group">
+            label for="senha"> senha /label>
+            input type="password" class="form-control" name="senha">
+        /div>
+        button type="submit" class="btn btn-info">
+            Cadastrar
+        /button>      
+    /form>
+/body>
+/html>
+        </code>
+    </pre>
+
+    <p>
+        Inserir no app.js:
+    </p>
+
+    <pre>
+        <code>
+// fazendo a mesma coisa, só que agora o caminho é /signup
+// quando alguém acessar meu servidor através de um pedido GET no caminho /signup
+app.get('/signup', function(req, res)
+{
+    // vou renderizar signup
+    res.render('signup');
+});
+
+// quando alguém acessar meu servidor através de um pedido POST no caminho /signup
+app.post('/signup', function(req, res)
+{
+    // vou mandar como resposta o corpo do pedido
+    res.json(req.body);
+});
+        </code>
+    </pre>
+
+    <p>
+        Agora já conseguimos receber a informação que ele manda no formulário do cadastro e login, falta a comunicação com o banco.
+    </p>
+
+    <h1 class="title2">Comunicação com o banco</h1>
+
+    <p>
+        Crie uma pasta database e dentro dela crie um arquivo chamado db.js
+    </p>
+
+    <p>
+        Tem dois módulos para comunicar com o banco, veremos o mais fácil, o MSSQL.
+    </p>
+
+    <p>
+        Instale o MSSQL, execute no gitbash o comando npm install tedious --save
+    </p>
+
+    <p>
+        No arquivo db.js, escreva:
+    </p>
+
+    <pre>
+        <code>
+// importando o módulo mssql
+let db = require("mssql");
+// criando um objeto que vai ter as informações para conectar com o banco
+let config = {
+    // nome do usuario que eu uso para acessar o banco de dados no azure
+    user: "",
+    // senha que eu utilizo para acessar o banco do azure
+    password: "",
+    // o link do meu servidor azure
+    server: "",
+    // nome do banco de dados que criei lá no azure
+    database: "",
+    options: {
+        encrypt: true
+    }
+}
+        </code>
+    </pre>
+
+    <p>
+        Acesse o azure:
+    </p>
+
+    <p>
+        Lá no azure, escreva e execute:
+    </p>
+
+<pre>
+    <code>
+create table usuarioExemplo(
+        id int primary key identity(1,1),
+        usuario varchar(30),
+        senha varchar(30)
+);
+    </code>
+</pre>
+
+    <p>
+        Use essa tabela por enquanto, depois você coloca a do seu projeto.
+    </p>
+
+    <p>
+        No db.js, escreva:
+    </p>
+
+    <pre>
+        <code>
+// vou abrir uma conexão com o banco usando o objeto que criei anteriormente
+db.connect(config)
+    .then(function (conn) {
+        // depois que fizer a conexão, vou fazer um pedido( request() ) e uma consulta ( query() ) que seria 'select * from usuario'
+        return conn.request().query('select * from usuarioExemplo');   
+    })
+    .then(function (resultado) {
+        // após a consulta ser feita, vou ter o resultado dela
+        // e irei mostrar no console
+        console.log(resultado)
+    });
+        </code>
+    </pre>
+
+    <p>
+        Execute apenas esse arquivo, escreva no gitbash: node database/db.js
+    </p>
+
+    <p>
+        No console apareceu isso:
+    </p>
+
+    <p>
+        Se ele tivesse encontrado algo, teria um array dos registros encontrados no recordset. Para testa isso, vou inserir no portal azure um usuario.
+    </p>
+
+    <pre>
+        <code>
+insert into usuarioExemplo values('vinicius', 'asadsa');
+        </code>
+    </pre>
+
+    <p>
+        Agora irei executar novamente o node database/db.js
+    </p>
+
+    <p>
+        No db.js, copie e cole:
+    </p>
+    
+    <pre>
+        <code>
+db.connect(config)
+    .then(function (conn) {
+        return conn.request().query('select * from usuarioExemplo');   
+    })
+    .then(function (resultado) {
+        console.log(resultado)
+    });
+        </code>
+    </pre>
+
+    <p>
+        E execute novamente o node database/db.js
+    </p>
+
+    <p>
+        Deu o erro: "Global connection already exists. Call sql.close() first" ou traduzindo: "Já existe uma conexão global, executa sql.close() primeiro para 
+        tentar fazer uma nova conexão global". No mssql, só a primeira vez que faço consulta que tenho que fazer uma conexão, as outras vezes uso a conexão já pronto,
+        porque se já existir uma conexão e eu tentar criar uma nova conexão, da erro.
+    </p>
+
+    <p>
+        Escreva no db.js:
+    </p>
+
+    <pre>
+        <code>
+// variavel para eu verificar se já tem conexão
+let temConexao = false;
+
+// função que eu crio para fazer qualquer consulta
+function Consultar(consulta)
+{
+    // verifico se temConexao está com o valor verdadeiro
+    if(temConexao)
+    {
+        // se tiver, já uso a global.conn para fazer a consulta e retorno o resultado
+        return global.conn.request().query(consulta)
+            .then(function (resultado) {
+                return resultado;
+            });
+    }
+    else
+    {
+        // se não tiver a conexão
+        // crio a conexão
+        return db.connect(config)
+        .then(function (conn) {
+            global.conn = conn;
+            // falo que tem conexão
+            temConexao = true;
+            // faço a consulta
+            return global.conn.request().query(consulta);   
+        })
+        .then(function (resultado) {
+            // retorno o resultado da consulta.
+            return resultado;
+        });
+    }
+}
+        </code>
+    </pre>
+
+    <p>
+        Agora já tenho a conexão com o banco e uma função que eu passo a consulta e ela me retorna o resultado dessa consulta.
+        Mas, tenho que deixar disponibilizado essa função para ser exportada pelos meus outros códigos e como faço isso ?
+        No db.js escreva:
+    </p>
+
+    <pre>
+        <code>
+// quando alguém der require e passar o caminho ate esse arquivo db.js, ele vai receber a função Consultar.
+module.exports = Consultar;
+        </code>
+    </pre>
+
+    <p>
+        No app.js escreva:
+    </p>
+
+    <pre>
+        <code>
+// importo a função Consultar que está no db.js 
+let Consultar = require('./database/db');
+        </code>
+    </pre>
+
+    <p>
+        Agora no app.js coloque:
+    </p>
+
+    <pre>
+        <code>
+// quando acessarem meu servidor no caminho /login através de um pedido POST
+app.post('/login', function(req, res)
+{
+    // irei fazer uma consulta para o banco, verificando se existe alguém no banco com o usuario que veio no corpo do pedido
+    Consultar(`select * from usuarioExemplo where = '${req.body.usuario}'`)
+        .then(function (resultado) {
+            // caso não tiver
+            if(resultado.recordset == 0)
+            {
+                // renderizo o login novamente
+                res.render('login');
+            }
+            else
+            {
+                // caso tiver
+                // pego o usuario que tem no banco
+                let usuario = resultado.recordset[0];
+                // verifico se a senha que veio é igual a que ta no banco
+                if(usuario.senha == req.body.senha)
+                {
+                    // se for igual, mando como resposta um texto "logado"
+                    res.send('logado');
+                }
+                else
+                {
+                    // caso não for igual, renderizo login de novo
+                    res.render('login');
+                }
+            }
+        })
+});
+
+// quando acessarem meu servidor no caminho /signup através de um pedido POST
+app.post('/signup', function(req, res)
+{
+    // irei fazer uma consulta para o banco, verificando se existe alguém no banco com o usuario que veio no corpo do pedido
+    Consultar(`select * from usuarioExemplo where = '${req.body.usuario}'`)
+        .then(function (resultado) {
+            // se não tiver
+            if(resultado.recordset == 0)
+            {
+                // faço uma consulta para inserir um usuario com a informação que veio no corpo do pedido
+                return Consultar(`insert into usuarioExemplo values('${req.body.usuario}', '${req.body.senha}')`)
+            }
+            else
+            {
+                // caso tiver um usuario, redireciono ele para o caminho /login, para ele fazer o login lá
+                res.redirect('/login');
+            }
+        })
+        .then(function (resultado)
+        {
+            // depois de inserir, resposto o pedido com o texto "cadastrado com sucesso"
+            res.send('cadastrado com sucesso');
+        });
+});
+        </code>
+    </pre>
+
+    <p>
+        Tenho o login e o cadastro, a parte de manter logado verá mais a frente.
+    </p>
+
+    <h1 class="title2">Gráfico</h1>
+
+    <p>
+        Já fizemos o login e o cadastro, agora é a parte de fazer o gráfico, com os analytics.
+    </p>
+
+    <p>
+        Não sei se o seu TOC gritou com o código do app.js, mas meu gritou. Se você ver, é zuado você colocar todos os app.get ou app.post de vários caminhos diferentes 
+        em um mesmo arquivo, seria melhor se desse pra organizar melhor isso e realmente da pra organizar. Crie uma pasta chamada routers e dentro dessa pasta crie 3
+        arquivos diferentes: index.js, login.js e signup.js.
+    </p>
+
+    <p>
+        Nos três arquivos inserir isso:
+    </p>
+
+    <pre>
+        <code>
+// importando o módulo express
+let express = require('express');
+// criando uma router
+// Router seria como um micro app do app.js, para eu fazer as coisas mais organizadas
+let router = express.Router();
+        </code>
+    </pre>
+
+    <p>
+        No index.js, apago o app.get('/') do app.js e coloco no index.js, mas troco o app.get('/') por router.get('/') e no final exporto o router.
+    </p>
+
+    <pre>
+        <code>
+router.get('/', function(req, res)
+{
+    res.render('index');
+});
+
+module.exports = router;
+        </code>
+    </pre>
+
+    <p>
+        No login.js, apago o app.get('/login') e app.post('/login'), coloco eles no login.js e troco onde tiver app por router.
+    </p>
+
+    <pre>
+        <code>
+// já que nesse código tenho que utilizar o banco, então preciso importa o código que comunica no banco
+let Consultar = require('./database/db');
+
+router.get('/login', function(req, res)
+{
+    res.render('login');
+});
+
+router.post('/login', function(req, res)
+{
+    Consultar(`select * from usuarioExemplo where = '${req.body.usuario}'`)
+        .then(function (resultado) {
+            if(resultado.recordset == 0)
+            {
+                res.render('login');
+            }
+            else
+            {
+                let usuario = resultado.recordset[0];
+                if(usuario.senha == req.body.senha)
+                {
+                    res.send('logado');
+                }
+                else
+                {
+                    res.render('login');
+                }
+            }
+        })
+    // res.json(req.body);
+});
+
+module.exports = router;
+        </code>
+    </pre>
+
+    <p>
+        No singup.js, apago o app.get('/signup') e app.post('/signup'), coloco eles no signup.js e troco onde tiver app por router.
+    </p>
+
+    <pre>
+        <code>
+let Consultar = require('./database/db');
+
+router.get('/signup', function(req, res)
+{
+    res.render('signup');
+});
+
+router.post('/signup', function(req, res)
+{
+    Consultar(`select * from usuarioExemplo where = '${req.body.usuario}'`)
+        .then(function (resultado) {
+            if(resultado.recordset == 0)
+            {
+                return Consultar(`insert into usuarioExemplo values('${req.body.usuario}', '${req.body.senha}')`)
+            }
+            else
+            {
+                res.redirect('/login');
+            }
+        })
+        .then(function (resultado)
+        {
+            res.send('cadastrado com sucesso');
+        });
+});
+
+module.exports = router;
+        </code>
+    </pre>
+
+    <p>
+        Agora no app.js vou inserir:
+    </p>
+
+    <pre>
+        <code>
+// colocando três middlewares
+// e esses middlewares é o router que criei no login.js, signup.js e index.js
+
+// o index só vai ser executado quando acessarem o servidor no caminho '/'
+app.use('/', require('./routers/index'));
+
+// o login só vai ser executado quando acessarem o servidor no caminho '/login'
+app.use('/login', require('./routers/login'));
+
+// o signup só vai ser executado quando acessarem o servidor no caminho '/signup'
+app.use('/signup', require('./routers/signup'));
+        </code>
+    </pre>
+
+    <p>
+        Perceba uma coisa, no app.js coloquei /login e /signup, mas no login.js e signup.js também coloquei /login e /signup. Se eu deixar assim, para acessar o login teria 
+        que acessar o caminho /login/login.
+    </p>
+
+    <p>
+        Então, tenho que tirar o '/login' que está no login.js e o '/signup' que está no signup.js, só deixar o '/'.
+    </p>
+
+    <pre>
+        <code>
+router.get('/', function(req, res)
+{
+    res.render('login');
+});
+
+router.post('/', function(req, res)
+{
+    Consultar(`select * from usuarioExemplo where = '${req.body.usuario}'`)
+        .then(function (resultado) {
+            if(resultado.recordset == 0)
+            {
+                res.render('login');
+            }
+            else
+            {
+                let usuario = resultado.recordset[0];
+                if(usuario.senha == req.body.senha)
+                {
+                    res.send('logado');
+                }
+                else
+                {
+                    res.render('login');
+                }
+            }
+        })
+    // res.json(req.body);
+});
+        </code>
+    </pre>
+
+    <pre>
+        <code>
+router.get('/', function(req, res)
+{
+    res.render('signup');
+});
+
+router.post('/', function(req, res)
+{
+    Consultar(`select * from usuarioExemplo where = '${req.body.usuario}'`)
+        .then(function (resultado) {
+            if(resultado.recordset == 0)
+            {
+                return Consultar(`insert into usuarioExemplo values('${req.body.usuario}', '${req.body.senha}')`)
+            }
+            else
+            {
+                res.redirect('/login');
+            }
+        })
+        .then(function (resultado)
+        {
+            res.send('cadastrado com sucesso');
+        });
+});
+        </code>
+    </pre>
+
+    <p>
+        Agora, iremos criar um arquivo na pasta Routers chamado dados.js e na pasta views um chamado grafico.hbs.
+    </p>
+
+    <p>
+        E no app.js, vamos inserir: 
+    </p>
+
+    <pre>
+        <code>
+app.use('/arduinos', require('./routers/dados'));
+        </code>
+    </pre>
+
+    <p>
+        E no dados.js vamos inserir:
+    </p>
+
+    <pre>
+        <code>
+// importando o módulo express
+let express = require('express');
+// criando um mini app, igual lá no app.js
+let router = express.Router();
+
+// importando o código para fazer consultas no banco
+let Consultar = require('../database/db');
+
+// criando um middleware que vai executado quando alguém acessar o caminho /graficos através de um pedido GET
+router.get('/', function(req, res)
+{
+    // mandar como resposta para o pedido a renderização do grafico.hbs
+    res.render('grafico');
+});
+
+// exportando o mini app
+module.exports = router;
+        </code>
+    </pre>
+
+    <p>
+        Agora, no grafico.hbs iremos criar o gráfico. Insira:
+    </p>
+
+    <pre>
+        <code>
+!DOCTYPE html>
+html>
+head>
+    title>Grafico/title>
+/head>
+body>
+    // importando as bibliotecas que vou utilizar para criar o grafico.
+    script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js">/script>
+	script src="http://www.chartjs.org/dist/2.7.1/Chart.js">/script>
+	script src="http://www.chartjs.org/samples/latest/utils.js">/script>
+    // canvas onde vai ser desenhado o gráfico com apenas a informação da temperatura.
+    canvas id="graficoTemperatura">/canvas>
+    // canvas onde vai ser desenhado o gráfico com apenas a informação da umidade.
+    canvas id="graficoUmidade">/canvas>
+
+    // esse grafico.js é um arquivo que vou criar para não deixar o código de criação do site exposto.
+    script src="/grafico.js">
+    /script>
+/body>
+/html>
+        </code>
+    </pre>
+
+    <p>
+        Para criar esse grafico.js, crie uma pasta chamada public, crie o arquivo dentro. E em app.js insira:
+    </p>
+
+    <pre>
+        <code>
+// estou informando que qualquer arquivo estatico do meu servidor, vai está na pasta public
+// se em algum html que eu escrever, for utilizar uma imagem e a Tag para criar uma imagem é img src="">
+// E o src ali é onde fica essa imagem, como eu falei que todo arquivo estatico do meu servidor está na pasta public, então tenho que escrever 
+// o caminho para a imagem assumindo que já to na pasta public. Se tivesse uma imagem na pasta public e o nome dela é test.jpg 
+// Escreveria da seguinte forma: img src="test.jpg">. Se ela estivesse dentro de uma pasta chamada imagens dentro da pasta public
+// Teria que escrever: img src="/imagens/test.jpg">
+// Mesma coisa vale para qualquer css que for chamar ou javascript(que não seja os routers).
+// Então quando escrevi: script src="/grafico.js">/script>, meu servidor vai procurar pelo arquivo grafico.js na pasta public.
+app.use(express.static(path.join(__dirname, 'public')));
+        </code>
+    </pre>
+
+    <p>
+        No grafico.js insira:
+    </p>
+
+    <pre>
+        <code>
+// acessando o canvas que coloquei como id graficoTemperatura
+let contextTemp = document.getElementById("graficoTemperatura").getContext("2d");
+// alterando a largura do canvas
+contextTemp.canvas.width = 1000;
+// alterando a altura do canvas
+contextTemp.canvas.height = 150;
+// acessando o canvas que coloquei como id graficoUmidade
+let contextUmi = document.getElementById("graficoUmidade").getContext("2d");
+// alterando a largura do canvas
+contextUmi.canvas.width = 1000;
+// alterando a altura do canvas
+contextUmi.canvas.height = 150;
+
+// criando o objeto que vai ser a configuração do gráfico de Temperatura
+let configurationTemp = {
+    type: 'line', // tipo do gráfico
+    // os dados
+    data:{
+        datasets: [{
+            // que vai ser só a temperatura
+            label: "Temperature",
+            type: 'line',
+            // a cor de fundo que vai aparecer
+            // se quiser alterar, é só trocar os numeros 249, 197 e 222
+            // porque eles são o valor RGB(R = Vermelho, G = Verde, B = Azul) que utilizo para pintar
+            backgroundColor: ['rgb(249, 197, 222)'],
+            // se eu vou pintar tudo ou só a linha do gráfico.
+            // como deixei falso, ele só pinta a linha.
+            // se quiser colocar true, para ver como fica, pode alterar, mas fica bem feio.
+            fill: false
+        }],
+    },
+    options: {
+        scales: {
+            xAxes: [{
+                distribution: 'series',
+                ticks: {
+                    beginAtZero: true
+                }
+            }],
+            yAxes: [{
+                scaleLabel: {
+                    display: true,
+                    labelString: 'medições'
+                },
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        },
+        animation: {
+            duration: 0
+        }
+    }
+};
+// mesma coisa que o de cima
+let configurationUmi = {
+    type: 'line',
+    data: {
+        datasets: [{
+            // só muda o nome do dado
+            // mas o resto continua igual.
+            label: "Umidade",
+            type: 'line',
+            backgroundColor: ['rgb(249, 197, 222)'],
+            fill: false
+        }],
+    },
+    options: {
+        scales: {
+            xAxes: [{
+                distribution: 'series',
+                ticks: {
+                    beginAtZero: true
+                }
+            }],
+            yAxes: [{
+                scaleLabel: {
+                    display: true,
+                    labelString: 'medições'
+                },
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        },
+        animation: {
+            duration: 0
+        }
+    }
+};
+// criando o grafico de temperatura
+let chartTemp = new Chart(contextTemp, configurationTemp);
+// criando o grafico de umidade
+let chartUmi = new Chart(contextUmi, configurationUmi);
+        </code>
+    </pre>
+
+    <p>
+        Só que ele esta sem nenhum dado, então tenho que popular ele com dados. Vá no portal azure e execute o seguinte código:
+    </p>
+
+    <pre>
+        <code>
+create table Medicao(id int primary key identity(1,1), temperatura int, umidade int);
+
+insert into Medicao values (22, 73),
+                           (24, 73),
+                           (25, 73),
+                           (26, 73),
+                           (27, 73),
+                           (28, 73),
+                           (29, 73),
+                           (21, 73),
+                           (22, 73),
+                           (23, 73),
+                           (24, 73),
+                           (25, 73),
+                           (26, 73),
+                           (28, 73),
+                           (29, 73),
+                           (23, 73),
+                           (-23, 73),
+                           (13, 73),
+                           (23, 73),
+                           (-23, 73),
+                           (33, 73),
+                           (-23, 73),
+                           (43, 73),
+                           (-23, 3),
+                           (53, 73),
+                           (23, 63),
+                           (63, 63),
+                           (23, 73),
+                           (73, 73),
+                           (-23, 73),
+                           (93, 73),
+                           (13, 73),
+                           (-23, 73),
+                           (23, 73),
+                           (23, 73),
+                           (23, 73),
+                           (-23, 73),
+                           (-23, 73),
+                           (23, 73),
+                           (-23, 73),
+                           (23, 73),
+                           (-23, 73),
+                           (-23, 73),
+                           (-3, 73),
+                           (23, 73),
+                           (33, 73),
+                           (53, 73),
+                           (23, 73),
+                           (33, 73),
+                           (23, 73),
+                           (23, 73),
+                           (26, 73),
+                           (25, 73),
+                           (22, 73),
+                           (23, 73),
+                           (22, 73),
+                           (23, 73),
+                           (22, 73),
+                           (23, 73),
+                           (22, 73),
+                           (13, 73),
+                           (24, 73),
+                           (23, 73),
+                           (3, 73),
+                           (32, 73),
+                           (23, 73),
+                           (23, 73);
+        </code>
+    </pre>
+
+    <p>
+       Agora, no dados.js vamos inserir: 
+    </p>
+
+    <pre>
+        <code>
+// Quando acessarem meu servidor no caminho /arduinos/dados (o /arduinos, porque no app.js coloquei o /arduinos, então tenho que assumir que já está escrito o /arduinos)
+// através de um pedido do tipo GET
+router.get('/dados', function (req, res) {
+    // vou fazer uma consulta para pegar as temperaturas e umidades das medicoes
+    Consultar('select temperatura, umidade from Medicao')
+        .then(function (resultado) {
+            // e respondo como JSON o resultado da consulta
+            res.json(resultado.recordset); 
+        });
+});
+        </code>
+    </pre>
+
+    <p>
+        Se você acessar /arduinos/dados, verá o resultado disso.
+    </p>
+
+    <p>
+        Agora, eu tenho que acessar esses dados no grafico.js para popular os graficos e como faz isso ? Insira no grafico.js
+    </p>
+
+    <pre>
+        <code>
+// variavel do tempo
+this.time = 0;
+// caso você crie na sua tabela de medições, um campo horário, você pode substituir essa váriavel pelo horário da medição
+
+// fetch é uma função para fazer pedidos para servidores
+// se eu não falo qual pedido eu quero fazer, ele faz um pedido do tipo GET
+// Eu sempre tenho que passar o caminho pra onde quero fazer o pedido
+// Nesse caso, o caminho seria /arduinos/dados
+fetch('/arduinos/dados')
+    .then(function (resposta)
+    {
+        // converto a resposta que tive para JSON
+        return resposta.json();
+    })
+    .then(function (dados)
+    {
+        // Depois tenho os dados em uma forma que posso utilizar
+        // crio um for para passar por todos as medicoes que eu recebi
+        for (let i = 0; i < dados.length; i++) {
+            let medicao = dados[i];
+            // adiciono o tempo na tabela de temperatura
+            // No caso de toda medicao ter um horario que ocorreu, você simplesmente colocaria em vez do this.time
+            // colocaria medicao.nomeDoCampoHorario, se o campo se chamar na tabela horarioMedicao,
+            // você colocaria medicao.horarioMedicao 
+            chartTemp.data.labels.push(this.time);
+            // adiciono o tempo na tabela de umidade
+            chartUmi.data.labels.push(this.time);
+            // aumento o tempo
+            this.time++;
+            // adiciono no gráfico de temperatura essa medição
+            chartTemp.data.datasets[0].data.push(parseInt(medicao.temperatura));
+            // adiciono no gráfico de umidade essa medição
+            chartUmi.data.datasets[0].data.push(parseInt(medicao.umidade));
+            // atualizo os gráficos
+            chartTemp.update();
+            chartUmi.update();
+        }
+    });
+        </code>
+    </pre>
+
+    <p>
+        Agora eu populei o gráfico, mas tenho que fazer ele ser atualizado. Só que a consulta que eu faço no caminho '/arduinos/dados' eu pego todos as medicoes 
+        e se eu quisesse só pegar a ultima medição, como faria ? No dados.js insira:
+    </p>
+
+    <pre>
+        <code>
+// quando acessarem o meu servidor no caminho /arduinos/dados/ultimo
+router.get('/dados/ultimo', function (req, res) {
+    // vou fazer uma consulta para o meu servidor para pegar a ultima medicao inserida
+    Consultar('select top(1) temperatura, umidade from Medicao order by id desc')
+        .then(function (resultado) {
+            // e vou retornar o que recebi
+            res.json(resultado.recordset); 
+        });
+});
+        </code>
+    </pre>
+
+    <p>
+        No grafico.js altere:
+    </p>
+
+    <pre>
+        <code>
+// mesma coisa de antes
+this.time = 0;
+
+fetch('/arduinos/dados')
+    .then(function (resposta){
+        return resposta.json();
+    })
+    .then(function (dados)
+    {
+        for (let i = 0; i < dados.length; i++) {
+            let medicao = dados[i];
+            chartTemp.data.labels.push(this.time);
+            chartUmi.data.labels.push(this.time);
+            this.time++;
+            chartTemp.data.datasets[0].data.push(parseInt(medicao.temperatura));
+            chartUmi.data.datasets[0].data.push(parseInt(medicao.umidade));
+            chartTemp.update();
+            chartUmi.update();
+        }
+        // o que muda é isso
+        // essa setInterval é uma função que recebe dois paramêtros
+        // o primeiro paramêtro é uma função e o segundo uma quantidade de tempo
+        // Essa função que passei como paramêtro vai ser executada toda vez que passar a quantidade de tempo(que é o segundo paramêtro).
+        // Essa quantidade de tempo é em milisegundos e 1000 milisegundos é um segundo.
+        // Então a função PegarUltimaMedicao vai ser executada a cada segundo
+        setInterval(PegarUltimaMedicao, 1000);
+    });
+
+// essa função PegarUltimaMedicao
+function PegarUltimaMedicao() {
+    // faz um pedido do tipo GET para o caminho /arduinos/dados/ultimo
+    fetch('/arduinos/dados/ultimo')
+        .then(function (resposta){
+            // converte o que recebeu para JSON
+            return resposta.json();
+        })
+        .then(function(dados)
+        {
+            // passo por todos as medições que recebi
+            for (let i = 0; i < dados.length; i++) {
+                
+                // verifico se meu gráfico tem 100 elementos sendo mostrado
+                if (chartTemp.data.labels.length == 100 
+                    && chartTemp.data.datasets[0].data.length == 100
+                    && chartUmi.data.labels.length == 100
+                    && chartUmi.data.datasets[0].data.length == 100)
+                {
+                    // caso tenha, eu apago o primeiro que aparece 
+                    // para poder ficar adicionando novos
+                    chartTemp.data.labels.shift();
+                    chartUmi.data.labels.shift();
+                    chartTemp.data.datasets[0].data.shift();
+                    chartUmi.data.datasets[0].data.shift();
+                }
+
+                // o resto é igual, adiciono uma medicao
+                let medicao = dados[i];
+                chartTemp.data.labels.push(this.time);
+                chartUmi.data.labels.push(this.time);
+                this.time++;
+                chartTemp.data.datasets[0].data.push(parseInt(medicao.temperatura));
+                chartUmi.data.datasets[0].data.push(parseInt(medicao.umidade));
+                chartTemp.update();
+                chartUmi.update();
+            }
+        });
+}
+        </code>
+    </pre>
+
+    <p>
+        Agora o gráfico atualiza.
+    </p>
+
+    <h1 class="title2"> Permanecer Logado </h1>
+
+    <p>
+        Estou fazendo algumas mudanças no meu próprio projeto e quando finalizar essas mudanças, irei colocar como permanecer logado.
+    </p>
+
+</div>

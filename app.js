@@ -44,6 +44,10 @@ app.use('/NPM', NPMRouter);
 app.use('/node', nodeRouter);
 app.use('/twitter', twitterRouter);
 
+app.use('/Projeto-Exemplo', (req, res) => {
+    res.render('projeto-exemplo');
+});
+
 // Server Local estará sendo hosteado na port 3000 do pc.
 app.listen(3000);
 
